@@ -73,6 +73,7 @@ local validUserGroup = {
 	sponsor = true,
 	supporterplus = false,
 	supporter = false,
+	bubba = true,
 	regular = false,
 	user = false,
 }
