@@ -12,7 +12,7 @@ function dm.StartRoundSV()
 	tdm.RemoveItems()
 
 	roundTimeStart = CurTime()
-	roundTime = 240 -- 60 * (1 + math.min(#player.GetAll() / 8, 2))
+	roundTime = 600 -- 60 * (1 + math.min(#player.GetAll() / 8, 2))
 
 	local players = PlayersInGame()
 
