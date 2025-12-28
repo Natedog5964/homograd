@@ -1,7 +1,7 @@
 "homigrad"
 {
 	"base"			"sandbox"
-	"title"			"Homigrad"
+	"title"			"Homigay"
 	"maps"			"hg_"
 	"menusystem"	"1"
 
