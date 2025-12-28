@@ -19,10 +19,10 @@ SWEP.Primary.Recoil = 0.5
 SWEP.Primary.Delay = 1.1
 SWEP.Primary.Force = 180
 
-SWEP.Secondary.ClipSize = 6
-SWEP.Secondary.DefaultClip = 6
+SWEP.Secondary.ClipSize = -1
+SWEP.Secondary.DefaultClip = -1
 SWEP.Secondary.Automatic = false
-SWEP.Secondary.Ammo = "ammo_crossbow"
+SWEP.Secondary.Ammo = "none"
 
 SWEP.Weight = 5
 SWEP.AutoSwitchTo = false
