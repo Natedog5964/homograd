@@ -126,7 +126,8 @@ function IsUnconscious(ply)
 end
 
 function GetUnconscious(ply)
-	if ply:Alive() then ply:ScreenFade(SCREENFADE.IN, Color(0, 0, 0, 255), 0.5, 0.5) end
+	if ply:Alive() then ply:ScreenFade(SCREENFADE.IN, Color(0, 0, 0, 100
+		), 0.5, 0.5) end
 	if not IsValid(ply.FakeRagdoll) then Faking(ply) end
 	if ply.gotuncon then ply.pain = ply.pain + 100 end
 
