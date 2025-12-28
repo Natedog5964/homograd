@@ -2,7 +2,7 @@ function hl2dm.StartRoundSV()
 	tdm.RemoveItems()
 
 	roundTimeStart = CurTime()
-	roundTime = 60 * (2 + math.min(#player.GetAll() / 8, 2))
+	roundTime = 600 * (2 + math.min(#player.GetAll() / 8, 2))
 
 	tdm.DirectOtherTeam(3, 1, 2)
 
