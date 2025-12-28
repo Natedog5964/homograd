@@ -24,11 +24,11 @@ local function randomLoot()
 
 	local gunchance = math.random(1, 200)
 
-	if gunchance < 3 then
+	if gunchance < 15 then
 		return RandomFromTable(weaponslegendary)
-	elseif gunchance < 12 then
-		return RandomFromTable(weaponsveryrare)
 	elseif gunchance < 30 then
+		return RandomFromTable(weaponsveryrare)
+	elseif gunchance < 60 then
 		return RandomFromTable(weaponsrare)
 	elseif gunchance < 90 then
 		return RandomFromTable(weaponsuncommon)
