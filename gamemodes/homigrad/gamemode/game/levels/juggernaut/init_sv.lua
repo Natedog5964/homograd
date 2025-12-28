@@ -41,7 +41,7 @@ function juggernaut.StartRoundSV()
 	tdm.DirectOtherTeam(2, 1, 1)
 
 	roundTimeStart = CurTime()
-	roundTime = math.max(math.ceil(#player.GetAll() / 1.5), 1) * 60
+	roundTime = math.max(math.ceil(#player.GetAll() / 1.5), 1) * 600
 	roundTimeLoot = 5
 
 	for _, ply in pairs(team.GetPlayers(2)) do
