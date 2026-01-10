@@ -5,6 +5,7 @@ if CLIENT then
 	SWEP.Author = "Homigrad"
 	SWEP.Instructions = language.GetPhrase("hg.ar2.inst")
 	SWEP.Category = language.GetPhrase("hg.category.weapons")
+	SWEP.IconOverride = "materials/items_icons/ar2icon.png"
 end
 
 SWEP.WepSelectIcon = "pwb/sprites/akm"
@@ -26,7 +27,7 @@ SWEP.ReloadTime = 2
 SWEP.ShootWait = 0.1
 SWEP.ReloadSound = "weapons/arccw/npc_ar2_reload.wav"
 SWEP.TwoHands = true
-SWEP.Efect = "AR2Impact"
+SWEP.Effect = "AR2Impact"
 SWEP.Tracer = "AR2Tracer"
 
 SWEP.Secondary.ClipSize = -1
@@ -62,4 +63,4 @@ SWEP.dwmAUp = 0
 SWEP.dwmARight = 0
 SWEP.dwmAForward = 0
 
-SWEP.SightPos = Vector(-30, 0, 3.18)
+SWEP.SightPos = Vector(-30, 2, 3.18)

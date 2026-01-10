@@ -5,6 +5,7 @@ if CLIENT then
 	SWEP.Author = "Homigrad"
 	SWEP.Instructions = language.GetPhrase("hg.crossbow.inst")
 	SWEP.Category = language.GetPhrase("hg.category.weapons")
+	SWEP.IconOverride = "materials/items_icons/crossbowicon.png"
 end
 
 SWEP.Spawnable = true
@@ -58,7 +59,7 @@ SWEP.dwmAForward = 0
 SWEP.addAng = Angle(-6, 0, -90)
 SWEP.addPos = Vector(0, -1, 0)
 
-SWEP.Efect = "PhyscannonImpact"
+SWEP.Effect = "PhyscannonImpact"
 
 SWEP.vbw = false
 
