@@ -3,7 +3,7 @@ function ffa.StartRoundSV()
     tdm.RemoveItems()
 
     roundTimeStart = CurTime()
-    roundTime = 600 + math.random(0, 300)
+    roundTime = 9999999 + math.random(0, 300)
 
     local players = PlayersInGame()
     for i, ply in ipairs(players) do
