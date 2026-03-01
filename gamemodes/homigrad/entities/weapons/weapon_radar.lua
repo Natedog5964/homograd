@@ -42,6 +42,7 @@ SWEP.PrimaryAttackCooldown = 25 -- Cooldown time in seconds
 -- Initialize the SWEP
 function SWEP:Initialize()
 	self:SetHoldType("slam")
+	local swep = self 
 end
 
 function SWEP:SecondaryAttack()
@@ -96,31 +97,55 @@ end
 -- Material for the sprite (can be replaced with any sprite)
 local material = Material("sprites/grip")
 
-hook.Add("HUDPaint", "DrawPlayerSprites", function()
-	local ply = LocalPlayer()
-	local wep = ply:GetActiveWeapon()
+hook.Add( "HUDPaint", "DrawPlayerSprites", function()
+    local ply = LocalPlayer()
+    if not ply:Alive() then return end
 
-	-- Ensure the player is holding the SWEP
-	if IsValid(wep) and wep:GetClass() == "weapon_radar" and wep.PlayerLocations and #wep.PlayerLocations > 0 then
-		cam.Start3D() -- Start 3D rendering context
-			for _, data in ipairs(wep.PlayerLocations) do
-				local plyPos = data.pos
-				local size = 64 -- Size of the sprite
+    local wep = ply:GetActiveWeapon()
+    if not IsValid( wep ) then return end
+    if wep:GetClass() ~= "weapon_radar" then return end
+    if not wep.PlayerLocations then return end
+    if #wep.PlayerLocations == 0 then return end
 
-				-- Decrement the alpha value over time
-				data.alpha = data.alpha or 255 -- Initialize alpha if not present
-				data.alpha = data.alpha - .12 -- Decrease alpha (adjust this value to control speed)
+    local curTime = CurTime()
+    cam.Start3D() -- Start 3D rendering context
 
-				-- Clamp the alpha value to not go below 0
-				if data.alpha < 0 then data.alpha = 0 end
+    for _, data in ipairs( wep.PlayerLocations ) do
+        local plyPos = data.pos
+        local size = 64 -- Size of the sprite
 
-				-- Set sprite material and draw it at the player's position
-				render.SetMaterial(material)
-				render.DrawSprite(plyPos, size, size, Color(255, 0, 0, data.alpha)) -- Bright red sprite
-			end
-		cam.End3D() -- End 3D rendering context
-	end
-end)
+		-- Decrement the alpha value over time
+        data.alpha = data.alpha or 255 -- Initialize alpha if not present
+		data.alpha = data.alpha - .12 -- Decrease alpha (adjust this value to control speed)
+		
+		-- Remove Entry when alpha is 0
+		if data.alpha <= 0 then 
+		table.remove(wep.PlayerLocations, i) 
+			continue 
+		end
+		-- Set sprite material and draw it at the player's position
+        render.SetMaterial( material )
+        render.DrawSprite( plyPos, size, size, Color( 255, 0, 0, data.alpha ) ) -- Bright red sprite
+
+        -- 3d lines in the direction of the player
+        local wepPos = wep:GetBonePosition( 1 )
+        local direction = ( plyPos - wepPos ):GetNormalized()
+        local endPoint = wepPos + direction * 45
+        render.DrawLine( wepPos, endPoint, Color( 255, 0, 0, data.alpha ) )
+
+        -- arrowhead
+        local arrowSize = 4
+        local perpendicular = Vector( 0, 0, 1 ):Cross( direction ):GetNormalized()
+        if perpendicular:LengthSqr() == 0 then
+            perpendicular = Vector( 0, 1, 0 ):Cross( direction ):GetNormalized()
+        end
+        local arrowPoint1 = endPoint - direction * arrowSize + perpendicular * arrowSize * 0.5
+        local arrowPoint2 = endPoint - direction * arrowSize - perpendicular * arrowSize * 0.5
+        render.DrawLine( endPoint, arrowPoint1, Color( 255, 0, 0, data.alpha ) )
+        render.DrawLine( endPoint, arrowPoint2, Color( 255, 0, 0, data.alpha ) )
+    end
+    cam.End3D()
+end )
 
 function SWEP:OnRemove()
 	-- self.PlayerLocations = {}
