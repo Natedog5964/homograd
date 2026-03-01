@@ -12,7 +12,23 @@ ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 ENT.EZgasParticle = true
 
 
+
 if SERVER then
+
+local function HasGasMask(ply)
+    if not IsValid(ply) or not ply.EZarmor then return false end
+for id, armorData in pairs(ply.EZarmor.items) do
+        local name = (armorData.name or ""):lower()
+        -- Checks for standard JMod gas masks and respirators
+        if name:find("mask") or name:find("respirator") then
+            return true
+        end
+    end
+    return false
+end
+
+
+
 	function ENT:Initialize()
 		local Time = CurTime()
 		self.LifeTime = math.random(50, 100) * JMod.Config.PoisonGasLingerTime
@@ -77,18 +93,27 @@ if SERVER then
 					Force = Force - Vec * 40
 				elseif self:ShouldDamage(obj) and (self.NextDmg < Time) then
 
-					if obj:IsPlayer() then
-						JMod.TryCough(obj)
-						obj.o2 = math.Max(obj.o2-0.15,0)
-					end
-					if obj:IsRagdoll() and RagdollOwner(obj) then
-						JMod.TryCough(RagdollOwner(obj))
-						RagdollOwner(obj).o2 = math.Max(RagdollOwner(obj).o2-0.15,0)
-					end
-				end
-			end
-		end
+                    if obj:IsPlayer() and obj:Alive() then
 
+                        if not HasGasMask(obj) then
+                            JMod.TryCough(obj)
+                            obj.o2 = math.Max((obj.o2 or 1) - 0.15, 0)
+                        end
+                    end
+
+                    if obj:IsRagdoll() then
+                        local owner = RagdollOwner(obj) 
+                        if IsValid(owner) and owner:IsPlayer() and owner:Alive() then
+                            if not HasGasMask(owner) then
+                                JMod.TryCough(owner)
+                                owner.o2 = math.Max((owner.o2 or 1) - 0.15, 0)
+                            end
+                        end
+                    end
+                end 
+            end
+	    end
+		
 		self:Extinguish()
 		local Phys = self:GetPhysicsObject()
 		Phys:SetVelocity(Phys:GetVelocity() * .3)
