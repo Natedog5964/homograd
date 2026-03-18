@@ -20,10 +20,10 @@ SWEP.Primary.Recoil = 0.5
 SWEP.Primary.Delay = 1.1
 SWEP.Primary.Force = 180
 
-SWEP.Secondary.ClipSize = -1
-SWEP.Secondary.DefaultClip = -1
+SWEP.Secondary.ClipSize = 6
+SWEP.Secondary.DefaultClip = 6
 SWEP.Secondary.Automatic = false
-SWEP.Secondary.Ammo = "none"
+SWEP.Secondary.Ammo = "ammo_crossbow"
 
 SWEP.Weight = 5
 SWEP.AutoSwitchTo = false
@@ -203,13 +203,27 @@ function SWEP:PrimaryAttack()
 	self:GetOwner():LagCompensation(false)
 end
 
+if SERVER then
+    function SWEP:MakeBolt(ent2)
+        local owner = self:GetOwner()
+        local tr = util.QuickTrace(owner:GetAttachment(owner:LookupAttachment("eyes")).Pos, self:GetOwner():GetAimVector() * 70, {self:GetOwner()})
+        local ent = ents.Create("prop_dynamic")
+        ent:SetParent(ent2)
+        ent:SetPos(tr.HitPos)
+        ent:SetModel("models/props/screw.mdl")
+        ent:SetAngles(self:GetOwner():EyeAngles()-Angle(90,0,0))
+        ent:Spawn()
+        ent2:DeleteOnRemove(ent)
+    end
+end
+
 function SWEP:SecondaryAttack()
 	if not self.mode then
 		local att = self:GetOwner()
 		local tRes1, tRes2 = TwoTrace(att)
 		if not tRes1 then return end
 
-		if self:Clip2() == 0 then return end
+		--if self:Clip2() == 0 then return end
 
 		if SERVER then
 			self:SetClip2(self:Clip2() - 1)
@@ -234,6 +248,44 @@ function SWEP:SecondaryAttack()
 			if not IsValid(ent1:GetPhysicsObject()) or not IsValid(ent2:GetPhysicsObject()) then return end
 
 			local weldEntity = constraint.Weld(ent1, ent2, tRes1.PhysicsBone or 0, tRes2.PhysicsBone or 0, 0, false, false)
+					
+					
+        if string.match(ent1:GetClass(), "_door") then
+            ent1:Fire("Lock")
+            self:MakeBolt(ent1)
+            if ent1:GetInternalVariable("m_bLocked") then
+                ent1:SetHealth(ent1:Health() + 50)
+            end
+        end
+
+        if string.match(ent2:GetClass(), "_door") then
+            ent2:Fire("Lock")
+            self:MakeBolt(ent2)
+            if ent1:GetInternalVariable("m_bLocked") then
+                ent1:SetHealth(ent1:Health() + 50)
+            end
+        end
+
+        if string.match(ent1:GetClass(), "prop_physics") or ent1:GetClass() == "func_physbox" then
+            self:MakeBolt(ent1)
+        end
+
+        if string.match(ent2:GetClass(), "prop_physics") or ent2:GetClass() == "func_physbox" then
+            self:MakeBolt(ent2)
+        end
+		
+        if string.match(ent1:GetClass(), "prop_ragdoll") then
+            self:MakeBolt(ent2)
+        end
+
+        if string.match(ent2:GetClass(), "prop_ragdoll") then
+            self:MakeBolt(ent2)
+        end
+
+        if ent1:IsWeapon() or ent2:IsWeapon() then
+            self:MakeBolt(ent1:IsWeapon() and ent1 or ent2)
+        end
+					
 			ent1.weld = ent1.weld or {}
 			ent2.weld = ent2.weld or {}
 			ent1.weld[weldEntity] = ent2
