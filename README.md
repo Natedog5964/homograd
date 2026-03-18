@@ -19,7 +19,7 @@ It features a somewhat realistic health and movement system and offers several s
 ## Installation | Manual
 
 1. [Download the repository](https://github.com/JonnyBro/homigrad/archive/refs/heads/main.zip).
-2. Subscribe to this collection: [\*click\*](https://steamcommunity.com/sharedfiles/filedetails/?id=3393369855).
+2. Subscribe to this collection: [\*click\*](https://steamcommunity.com/sharedfiles/filedetails/?id=3596578508).
 3. Extract the `homigrad-main` folder and place it in `your_gmod_install/garrysmod/addons` folder or server’s `addons` directory.
 4. Move the `data` folder from `homigrad-main` to `your_gmod_install/garrysmod/`.
    - This folder contains some premaid spawnpoints data that are used in some modes.
