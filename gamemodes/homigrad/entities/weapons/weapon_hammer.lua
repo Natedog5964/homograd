@@ -20,8 +20,8 @@ SWEP.Primary.Recoil = 0.5
 SWEP.Primary.Delay = 1.1
 SWEP.Primary.Force = 180
 
-SWEP.Secondary.ClipSize = 6
-SWEP.Secondary.DefaultClip = 6
+SWEP.Secondary.ClipSize = -1
+SWEP.Secondary.DefaultClip = -1
 SWEP.Secondary.Automatic = false
 SWEP.Secondary.Ammo = "ammo_crossbow"
 
@@ -210,7 +210,7 @@ if SERVER then
         local ent = ents.Create("prop_dynamic")
         ent:SetParent(ent2)
         ent:SetPos(tr.HitPos)
-        ent:SetModel("models/props/screw.mdl")
+        ent:SetModel("models/zgrad/screw/screw.mdl")
         ent:SetAngles(self:GetOwner():EyeAngles()-Angle(90,0,0))
         ent:Spawn()
         ent2:DeleteOnRemove(ent)
