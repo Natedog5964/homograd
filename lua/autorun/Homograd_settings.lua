@@ -17,6 +17,9 @@ hook.Add("PopulateToolMenu", "Homograd_Settings_Menu", function()
         panel:CheckBox("Bodycam", "hg_bodycam")
         panel:ControlHelp("Turn Bodycam mode on or off.")
 		
+		panel:CheckBox("Drawspawns", "hg_drawspawn")
+        panel:ControlHelp("Shows Where All Homigrad Spawns Are.")
+		
 		panel:CheckBox("Chest Fake Cam", "hg_fakecam_mode")
         panel:ControlHelp("Makes camera when faked fixed to your head (so you cant look around with your mouse).")
 		

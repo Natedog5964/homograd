@@ -179,7 +179,9 @@ function TryAssignPolice(ply)
 end
 
 function SpawnPolicePlayers()
-	local points = ReadDataMap("spawnpointsct")
+	local points = ReadDataMap("spawnpoints_ss_police")
+	if not points or #points == 0 then points = ReadDataMap("spawnpointsct") end
+
 	local playsound = true
 	local prePolicePlayers = PlayersDead(true)
 	if not prePolicePlayers or table.IsEmpty(prePolicePlayers) then return end

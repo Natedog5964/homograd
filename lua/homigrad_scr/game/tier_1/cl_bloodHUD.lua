@@ -1,4 +1,3 @@
-
 local function BuildScaledFonts()
     local s = ScrH() / 1080
     if s < 0.1 then s = 1.0 end 
