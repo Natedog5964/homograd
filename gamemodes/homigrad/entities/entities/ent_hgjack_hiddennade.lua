@@ -1,0 +1,104 @@
+if SERVER then AddCSLuaFile() end
+ENT.Base = "ent_hgjack_gmod_grenadebase"
+ENT.Author = ""
+ENT.PrintName = "Hidden Nade"
+ENT.Category = "JMod - ZGrad"
+ENT.Spawnable = true
+ENT.JModPreferredCarryAngles = Angle(0, -140, 0)
+ENT.Model = "models/jmod/explosives/grenades/flashbang/flashbang.mdl"
+ENT.SpoonScale = 2
+ENT.AllowHidden = true
+
+if SERVER then
+    function ENT:Arm()
+        self:SetBodygroup(2, 1)
+        self:SetState(JMod.EZ_STATE_ARMED)
+        self:SpoonEffect()
+
+
+        local time = 3
+        timer.Simple(time - 1,function()
+            if not IsValid(self) then return end
+            player.EventPoint(self:GetPos(),"fragnade pre detonate",1024,self)
+        end)
+
+        timer.Simple(time, function()
+            if IsValid(self) then
+                self:Detonate()
+            end
+        end)
+    end
+
+    function ENT:CanSee(ent)
+        if not IsValid(ent) then return false end
+        local TargPos, SelfPos = ent:LocalToWorld(ent:OBBCenter()), self:LocalToWorld(self:OBBCenter()) + vector_up * 10
+
+        local Tr = util.TraceLine({
+            start = SelfPos,
+            endpos = TargPos,
+            filter = {self, ent},
+            mask = MASK_SHOT + MASK_WATER
+        })
+
+        return not Tr.Hit
+    end
+
+    function ENT:Detonate()
+        if self.Exploded then return end
+        self.Exploded = true
+        local SelfPos = self:GetPos()
+        JMod.Sploom(self:GetOwner(), self:GetPos(), math.random(10, 20))
+        self:EmitSound("explosions/cache_explode.wav", 90, 100)
+        local plooie = EffectData()
+        plooie:SetOrigin(SelfPos)
+        plooie:SetScale(.01)
+        plooie:SetRadius(.5)
+        plooie:SetNormal(Vector( 0, 1, 0 ))
+        ParticleEffect("pcf_jack_groundsplode_small",SelfPos,Vector( 0, 1, 0 ):Angle())
+        self:EmitSound("snd_jack_fragsplodeclose.wav", 511, 140)
+        self:EmitSound("snd_jack_fragsplodeclose.wav", 511, 140)
+        local plooie = EffectData()
+        plooie:SetOrigin(SelfPos)
+        util.Effect("eff_jack_gmod_flashbang", plooie, true, true)
+        util.ScreenShake(SelfPos, 20, 20, 1, 1000)
+
+        for i,ply in player.Iterator() do
+            local plyPos = ply:GetPos()
+            local dis = SelfPos:Distance(plyPos)
+
+            if dis < 1000 then
+                if not util.TraceLine({
+                    start = SelfPos,
+                    endpos = plyPos,
+                    filter = {self,ply}
+                }).Hit then
+                    player.Event(ply,"flashbang",1 - dis / 1000)
+                end
+            end
+        end
+
+        local OnGround = util.QuickTrace(SelfPos + Vector(0, 0, 5), Vector(0, 0, -15), {self}).Hit
+
+        local Spred = Vector(0, 0, 0)
+        JMod.FragSplosion(self, SelfPos + Vector(0, 0, 20), 800, 200, 1500, self:GetOwner() or game.GetWorld())
+        SafeRemoveEntityDelayed(self, 10)
+    end
+
+elseif CLIENT then
+    local GlowSprite = Material("sprites/mat_jack_circle")
+
+    function ENT:Draw()
+        self:DrawModel()
+        -- sprites for calibrating the lethality/casualty radius
+
+        --[[local State,Vary=self:GetState(),math.sin(CurTime()*50)/2+.5
+
+            render.SetMaterial(GlowSprite)
+            render.DrawSprite(self:GetPos()+Vector(0,0,4),15*52*2,15*52*2,Color(255,0,0,128))
+            render.DrawSprite(self:GetPos()+Vector(0,0,4),5*52*2,5*52*2,Color(255,255,255,128))
+        ]]--
+
+    end
+
+    ----language.Add("ent_jack_gmod_ezfragnade", "EZ Frag Grenade")
+end
