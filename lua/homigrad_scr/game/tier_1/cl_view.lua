@@ -1,5 +1,6 @@
 CameraSetFOV = 120
 
+local hg_funny_camera = CreateClientConVar("hg_funny_camera", "0", true, false, nil, 0, 1)
 local hg_cool_camera = CreateClientConVar("hg_cool_camera", "0", true, false, "epic camera", 0, 1)
 local hg_fov = CreateClientConVar("hg_fov", "120", true, false, nil, 70, 120)
 CreateClientConVar("hg_smooth_cam", "1", true, false, nil, 0, 1)
@@ -218,25 +219,23 @@ end) --]]
 local oldrag
 
 -- TODO: Render deathtexts on death for funnie messages
+
 hook.Add("Player Death", "hgPlayerDeath2", function(ent)
 	if ent ~= LocalPlayer() then return end
-
-	local ply = LocalPlayer()
-
+		
 	if GetConVar("hg_deathscreen"):GetBool() then
 		deathrag = ent:GetNWEntity("Ragdoll", oldrag)
 		deathtext = string.upper(deathtexts[math.random(#deathtexts)])
 
-		deathFadeTimer = "hgDeathFade_" .. CurTime()
-
-		ply:ScreenFade(SCREENFADE.IN, Color(0, 0, 0, 255), 0.5, 1)
+	-- TODO: Fix issue where, upon dying and immediately respawning, screen still fades to black
+	--LocalPlayer():ScreenFade(SCREENFADE.IN, Color(0, 0, 0, 255), 0.01, .1)
 
 		if not playing and GetConVar("hg_deathsound"):GetBool() then
 			playing = true
 
 			sound.PlayURL(deathtracks[math.random(#deathtracks)], "mono", function(station)
 				if IsValid(station) then
-					station:SetPos(ply:GetPos())
+					station:SetPos(LocalPlayer():GetPos())
 					station:Play()
 					station:SetVolume(3)
 
@@ -245,33 +244,19 @@ hook.Add("Player Death", "hgPlayerDeath2", function(ent)
 			end)
 		end
 
-		timer.Create(deathFadeTimer, 5, 1, function()
-			if IsValid(ply) and not ply:Alive() then ply:ScreenFade(SCREENFADE.IN, Color(0, 0, 0, 255), 1, 1) end
+		timer.Create("DeathCam", 5, 1, function()
+			--LocalPlayer():ScreenFade(SCREENFADE.IN, Color(0, 0, 0, 255), 1, 1)
 
 			playing = false
 		end)
 	end
 
 	timer.Simple(4, function()
-		if not IsValid(ply) or ply:Alive() then return end
-		if GetConVar("hg_deathscreen"):GetBool() then ply:ScreenFade(SCREENFADE.OUT, Color(0, 0, 0, 255), 0.2, 1) end
+		--if GetConVar("hg_deathscreen"):GetBool() then LocalPlayer():ScreenFade(SCREENFADE.OUT, Color(0, 0, 0, 255), 0.1, 1) end
 		if IsValid(deathrag) then deathrag:ManipulateBoneScale(deathrag:LookupBone("ValveBiped.Bip01_Head1"), Vector(1, 1, 1)) end
 	end)
 end)
 
-hook.Add("PlayerSpawn", "hgCleanupDeathEffects", function(ply)
-	if ply ~= LocalPlayer() then return end
-	if deathFadeTimer and timer.Exists(deathFadeTimer) then timer.Remove(deathFadeTimer) end
-
-	ply:ScreenFade(SCREENFADE.OUT, Color(0, 0, 0, 0), 0.1, 0)
-
-	if IsValid(g_station) then
-		g_station:Stop()
-		g_station = nil
-	end
-
-	playing = false
-end)
 
 -- CALCVIEW
 

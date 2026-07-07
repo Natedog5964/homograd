@@ -1,3 +1,6 @@
+--if engine.ActiveGamemode() ~= "homigrad" then return end
+
+
 local skins = {
 	megapenis = true,
 	meagsponsor = true,
@@ -32,6 +35,7 @@ SWEP.Primary.Force = 0
 SWEP.Secondary.ClipSize = -1
 SWEP.Secondary.DefaultClip = -1
 SWEP.Secondary.Automatic = false
+
 SWEP.Secondary.Ammo = "none"
 
 SWEP.CSMuzzleFlashes = true
@@ -565,14 +569,12 @@ function SWEP:FireBullet()
 	end
 
 	ply:LagCompensation(false)
-
 	-- local effectdata = EffectData()
 	-- effectdata:SetOrigin(shootOrigin)
 	-- effectdata:SetAngles(shootAngles)
 	-- effectdata:SetScale(self:IsSighted() and 0.1 or 1)
 	-- effectdata:SetNormal(shootDir)
-	-- util.Effect(self.Effect or "MuzzleEffect", effectdata, true, true)
-
+	-- util.Effect(self.Efect or "MuzzleEffect", effectdata, true, true)
 	if self:GetOwner():IsNPC() then self:SendWeaponAnim(ACT_VM_PRIMARYATTACK) end
 end
 
@@ -946,8 +948,12 @@ function SWEP:WorldModelTransform()
 	-- Ang:RotateAroundAxis(ang:Up(), localang[2])
 	-- Ang:RotateAroundAxis(ang:Right(), localang[1])
 
-	model:SetPos(Pos)
+if Pos then
+    model:SetPos(Pos)
+end
+if And then 
 	model:SetAngles(Ang)
+end
 
 	if CLIENT then
 		model:SetRenderOrigin(Pos)

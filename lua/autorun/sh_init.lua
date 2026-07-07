@@ -1,0 +1,1 @@
+CreateClientConVar("ar3_babymode", 0, true, true, "Toggles Baby Mode For Ar3")
