@@ -1,6 +1,7 @@
 function hl2dm.StartRoundSV()
 	tdm.RemoveItems()
-
+	tdm.bullshit()
+	
 	roundTimeStart = CurTime()
 	roundTime = 999999 * (2 + math.min(#player.GetAll() / 8, 2))
 

@@ -15,6 +15,9 @@ SpawnPointsList = {
 
 	spawnpoints_ss_police = {"police", Color(0, 0, 125)}, -- Homicide Police For Some Versions
 	
+	car_red = {"car_red", Color(125, 125, 125)},
+	car_police = {"car_police", Color(125, 125, 125)},
+	
 	--[[	
 	spawnpointsseekers = {"seekers", Color(255, 0, 0)},	-- Hide&Seek/Juggernuat
 	spawnpointshiders = {"hiders", Color(0, 255, 0)}, -- Zombie/Hide&Seek/Juggernuat

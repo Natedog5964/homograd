@@ -12,6 +12,7 @@ function construct.StartRoundSV()
 	local spawnsT, _ = tdm.SpawnsTwoCommand()
 
 	tdm.RemoveItems()
+	tdm.bullshit()
 
 	roundTimeStart = CurTime()
 	roundTimeRespawn = CurTime() + 15
@@ -63,13 +64,22 @@ function construct.Think()
 end
 
 function construct.PlayerSpawn2(ply, teamID)
-	ply:SetModel(tdm.models[math.random(#tdm.models)])
 
+	-- Set the player's model to the custom model if available, otherwise use a random team model
+	local customModel = GetPlayerModelBySteamID(ply:SteamID()) or false
+
+	if customModel then
+		ply:SetModel(customModel)
+	else
+		--ply:SetModel(tdm.models[math.random(#tdm.models)]) 
+		EasyAppearance.SetAppearance(ply)
+	end
 	ply:SetPlayerColor(Vector(0, 0, 0.6))
-
+	
 	ply:Give("weapon_physgun")
 	ply:Give("weapon_hands")
-
+	ply:Give("gmod_tool")
+	
 	-- FIXME: This doesn't seem to work.
 	if ply.allowGrab then ply.allowGrab = false end
 end

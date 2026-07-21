@@ -401,6 +401,7 @@ hook.Add("PostPlayerDeath", "hgPostPlayerDeath", function(ply) end)
 hook.Add("PhysgunDrop", "hgDropPlayer", function(ply, ent) ent.isheld = false end)
 hook.Add("PlayerDisconnected", "hgSavePlayerInfo", function(ply) if ply:Alive() then ply:Kill() end end)
 
+--[[ HEY I WANNA PICK SHIT UP
 hook.Add("PhysgunPickup", "hgPickUpPlayer", function(ply, ent)
 	-- if ply:GetUserGroup()=="servermanager" or ply:GetUserGroup()=="superadmin" or ply:GetUserGroup()=="owner" or ply:GetUserGroup()=="admin" or ply:GetUserGroup()=="operator" then
 
@@ -422,6 +423,7 @@ hook.Add("PhysgunPickup", "hgPickUpPlayer", function(ply, ent)
 		end
 	end
 end)
+--]]
 
 -- idk what is going on but it does the job
 hook.Add("PlayerSpawn", "!!!!!!!!!!!!", function(ply) if PLYSPAWN_OVERRIDE then return true end end)
@@ -1042,7 +1044,7 @@ hook.Add("Player Think", "FakeControl", function(ply, time)
 					maxspeeddamp = 50,
 					maxspeed = 1200,
 					teleportdistance = 0,
-					deltatime = deltatime,
+					deltatime = deltatime or FrameTime(),
 				}
 
 				phys:Wake()
@@ -1170,6 +1172,9 @@ hook.Add("Player Think", "FakeControl", function(ply, time)
 				head:ComputeShadowControl(shadowparams)
 			end
 		end
+		
+		local fingerL1 = rag:LookupBone("ValveBiped.Bip01_L_Finger1")
+		local fingerL2 = rag:LookupBone("ValveBiped.Bip01_L_Finger2")
 
 		-- Grab with left hand
 		if ply:KeyDown(IN_SPEED) and not ply.unconscious and not timer.Exists("StunTime" .. ply:EntIndex()) then
@@ -1204,8 +1209,8 @@ hook.Add("Player Think", "FakeControl", function(ply, time)
 
 							rag:EmitSound("physics/body/body_medium_impact_soft" .. math.random(1, 7) .. ".wav", 50, math.random(95, 105))
 
-							rag:ManipulateBoneAngles(rag:LookupBone("ValveBiped.Bip01_L_Finger1"), Angle(0, -30, 0), true)
-							rag:ManipulateBoneAngles(rag:LookupBone("ValveBiped.Bip01_L_Finger2"), Angle(0, -30, 0), true)
+							if fingerL1 then rag:ManipulateBoneAngles(rag:LookupBone("ValveBiped.Bip01_L_Finger1"), Angle(0, -30, 0), true) end
+							if fingerL2 then rag:ManipulateBoneAngles(rag:LookupBone("ValveBiped.Bip01_L_Finger2"), Angle(0, -30, 0), true) end
 						end
 					else
 						ply:PickupWeapon(ent)
@@ -1216,14 +1221,17 @@ hook.Add("Player Think", "FakeControl", function(ply, time)
 			if IsValid(rag.ZacConsLH) then
 				ply:SetNWBool("lhon", false)
 
-				rag:ManipulateBoneAngles(rag:LookupBone("ValveBiped.Bip01_L_Finger1"), Angle(0, 0, 0), true)
-				rag:ManipulateBoneAngles(rag:LookupBone("ValveBiped.Bip01_L_Finger2"), Angle(0, 0, 0), true)
+			if fingerL1 then	rag:ManipulateBoneAngles(rag:LookupBone("ValveBiped.Bip01_L_Finger1"), Angle(0, 0, 0), true) end
+			if fingerL2 then	rag:ManipulateBoneAngles(rag:LookupBone("ValveBiped.Bip01_L_Finger2"), Angle(0, 0, 0), true) end
 
 				rag.ZacConsLH:Remove()
 				rag.ZacConsLH = nil
 			end
 		end
 
+		local fingerR1 = rag:LookupBone("ValveBiped.Bip01_L_Finger1")
+		local fingerR2 = rag:LookupBone("ValveBiped.Bip01_L_Finger2")
+		
 		-- Grab with right hand
 		if ply:KeyDown(IN_WALK) and not ply.unconscious and not timer.Exists("StunTime" .. ply:EntIndex()) then
 			local bone = rag:TranslateBoneToPhysBone(rag:LookupBone("ValveBiped.Bip01_R_Hand"))
@@ -1255,8 +1263,8 @@ hook.Add("Player Think", "FakeControl", function(ply, time)
 
 							rag:EmitSound("physics/body/body_medium_impact_soft" .. math.random(1, 7) .. ".wav", 50, math.random(95, 105))
 
-							rag:ManipulateBoneAngles(rag:LookupBone("ValveBiped.Bip01_R_Finger1"), Angle(0, -30, 0), true)
-							rag:ManipulateBoneAngles(rag:LookupBone("ValveBiped.Bip01_R_Finger2"), Angle(0, -30, 0), true)
+						if fingerR1 then rag:ManipulateBoneAngles(rag:LookupBone("ValveBiped.Bip01_R_Finger1"), Angle(0, -30, 0), true) end
+						if fingerR2 then rag:ManipulateBoneAngles(rag:LookupBone("ValveBiped.Bip01_R_Finger2"), Angle(0, -30, 0), true) end
 
 							rag.ZacConsRH = cons
 						end
@@ -1269,8 +1277,8 @@ hook.Add("Player Think", "FakeControl", function(ply, time)
 			if IsValid(rag.ZacConsRH) then
 				ply:SetNWBool("rhon", false)
 
-				rag:ManipulateBoneAngles(rag:LookupBone("ValveBiped.Bip01_R_Finger1"), Angle(0, 0, 0), true)
-				rag:ManipulateBoneAngles(rag:LookupBone("ValveBiped.Bip01_R_Finger2"), Angle(0, 0, 0), true)
+			if fingerR1 then rag:ManipulateBoneAngles(rag:LookupBone("ValveBiped.Bip01_R_Finger1"), Angle(0, 0, 0), true) end
+			if fingerR2 then rag:ManipulateBoneAngles(rag:LookupBone("ValveBiped.Bip01_R_Finger2"), Angle(0, 0, 0), true) end
 
 				rag.ZacConsRH:Remove()
 				rag.ZacConsRH = nil

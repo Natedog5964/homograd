@@ -10,7 +10,8 @@ end
 
 function dm.StartRoundSV()
 	tdm.RemoveItems()
-
+	tdm.bullshit()
+	
 	roundTimeStart = CurTime()
 	roundTime = 999999 -- 60 * (1 + math.min(#player.GetAll() / 8, 2))
 

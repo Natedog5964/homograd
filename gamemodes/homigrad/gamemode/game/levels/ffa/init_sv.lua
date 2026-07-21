@@ -1,7 +1,8 @@
 
 function ffa.StartRoundSV()
     tdm.RemoveItems()
-
+	tdm.bullshit()
+	
     roundTimeStart = CurTime()
     roundTime = 9999999 + math.random(0, 300)
 

@@ -247,3 +247,40 @@ end
 function tdm.PlayerDeath(ply, inf, att)
 	return false
 end
+
+function tdm.SpawnSimfphys(list, name, func)
+	for _, point in pairs(list) do
+	if simfphys then 
+		local ent = simfphys.SpawnVehicleSimple(name, point[1], point[2])
+	end
+		if func then
+			func(ent)
+		end
+	end
+end
+
+function tdm.SpawnVehicle() -- Use This To Spawn Simfphys Vehicles
+	--tdm.SpawnSimfphys(ReadDataMap("car_blue"), "sim_fphys_pwhatchback")
+end
+
+local cars = {
+    "lvs_wheeldrive_dc_fairlane500",
+	"lvs_wheeldrive_w123",
+	"lvs_wheeldrive_vw_beetle",
+	"lvs_wheeldrive_dcgolfmk1"
+}
+
+function tdm.bullshit() -- This For Anything Else
+	for _, pt in pairs(ReadDataMap("car_red") or {}) do tdm.SpawnEnt({pt}, cars[math.random(#cars)]) end -- I an disappointed 
+	--tdm.SpawnSimfphys(ReadDataMap("car_blue"), "lvs_wheeldrive_dc_fairlane500")
+	tdm.SpawnEnt(ReadDataMap("car_police"), "lvs_wheeldrive_monaco_cop")
+end
+
+function tdm.SpawnEnt(list, name, func)
+	for _, point in pairs(list) do
+		local ent = ents.Create(name)
+		ent:SetPos(point[1])
+		ent:SetAngles(point[2])
+		ent:Spawn()
+	end
+end

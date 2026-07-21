@@ -120,13 +120,17 @@ function file.Exists(path, gamePath)
 
 	f, d = file_Find(path .. "*", gamePath)
 
+if d then
 	for i = 1, #d do
 		if d[i] == path2 then return true end
 	end
+end
 
+if f then
 	for i = 1, #f do
 		if f[i] == path2 then return true end
 	end
+end
 
 	return false
 end

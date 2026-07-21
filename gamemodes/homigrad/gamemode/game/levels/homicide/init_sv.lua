@@ -230,7 +230,9 @@ end)
 
 function homicide.StartRoundSV()
 	tdm.RemoveItems()
-
+	
+	tdm.bullshit()
+	
 	tdm.DirectOtherTeam(2, 1, 1)
 
 	homicide.police = false

@@ -12,13 +12,22 @@ hook.Add("PopulateToolMenu", "Homograd_Settings_Menu", function()
     spawnmenu.AddToolMenuOption("Options", "Homograd", "Homograd_Settings", "Homograd Settings", "", "", function(panel)
         panel:ClearControls()
 		
+		
+	if LocalPlayer():IsAdmin() then
+	CreateHeader(panel, "Admin")
+	
+		panel:CheckBox("Drawspawns", "hg_drawspawn")
+        panel:ControlHelp("Shows Where All Homigrad Spawns Are.")
+		
+		panel:CheckBox("Show Hit Position", "hg_show_hitposmuzzle")
+        panel:ControlHelp("Shows the hit position and muzzle of weapons.")
+		
+	end
+		
 		CreateHeader(panel, "Camera")
 		
         panel:CheckBox("Bodycam", "hg_bodycam")
         panel:ControlHelp("Turn Bodycam mode on or off.")
-		
-		panel:CheckBox("Drawspawns", "hg_drawspawn")
-        panel:ControlHelp("Shows Where All Homigrad Spawns Are.")
 		
 		panel:CheckBox("Chest Fake Cam", "hg_fakecam_mode")
         panel:ControlHelp("Makes camera when faked fixed to your head (so you cant look around with your mouse).")
@@ -28,15 +37,26 @@ hook.Add("PopulateToolMenu", "Homograd_Settings_Menu", function()
         panel:ControlHelp("Your FOV.")
         panel:Help("")
 		
-		CreateHeader(panel, "Misc")
+		CreateHeader(panel, "Gameplay")
 		
 		local ScopeSpeedSlider = panel:NumSlider("Sniper Scoped Speed", "hg_scopespeed", 0.1, 10, 1)
         FOVSlider:SetTooltip("Defaults to 0.5.")
         panel:ControlHelp("Changes the speed of snipers scopes when zoomed in.")
-        panel:Help("")
+        panel:Help("")	
+		
+		panel:CheckBox("Show roles while spectating", "homicide_get")
+        panel:ControlHelp("Show traitors and stuff while you're spectating.")
+		
+		CreateHeader(panel, "Misc")
 		
 		panel:CheckBox("Death Screen", "hg_deathscreen")
         panel:ControlHelp("Turn Homigrad Death Screen on or off.")
+		
+		panel:CheckBox("Voice icons", "hg_showvoice")
+        panel:ControlHelp("Toggles voice icons.")
+		
+		panel:CheckBox("Grab Hints", "hg_showhands")
+        panel:ControlHelp("Show hints on whether your hand will stick and what object you're currently about to hold.")
 		
         local resetBtn = panel:Button("Reset to Defaults")
         resetBtn.DoClick = function()
@@ -45,6 +65,9 @@ hook.Add("PopulateToolMenu", "Homograd_Settings_Menu", function()
             RunConsoleCommand("hg_scopespeed", "0.5")
 			RunConsoleCommand("hg_fakecam_mode", "0")
 			RunConsoleCommand("hg_deathscreen", "1")
+			RunConsoleCommand("hg_showvoice", "1")
+			RunConsoleCommand("hg_showhands", "1")
+			RunConsoleCommand("homicide_get", "0")
 			
             timer.Simple(0.1, function()
                 if IsValid(panel) then

@@ -63,13 +63,20 @@ function hl2.Think()
 end
 
 function hl2.PlayerSpawn2(ply, teamID)
-	--ply:SetModel(tdm.models[math.random(#tdm.models)])
+	-- Set the player's model to the custom model if available, otherwise use a random team model
+	local customModel = GetPlayerModelBySteamID(ply:SteamID()) or false
 
-	--ply:SetPlayerColor(Vector(0, 0, 0.6))
-
+	if customModel then
+		ply:SetModel(customModel)
+	else
+		--ply:SetModel(tdm.models[math.random(#tdm.models)]) 
+		EasyAppearance.SetAppearance(ply)
+	end
+	ply:SetPlayerColor(Vector(0, 0, 0.6))
+	
 	ply:Give("weapon_hl3_crowbar")
 	ply:Give("weapon_hands")
-
+	
 	-- FIXME: This doesn't seem to work.
 	if ply.allowGrab then ply.allowGrab = false end
 end
@@ -93,7 +100,7 @@ end
 
 util.AddNetworkString("hl2_die")
 
-function construct.PlayerDeath()
+function hl2.PlayerDeath()
 	net.Start("hl2_die")
 	net.Broadcast()
 end
