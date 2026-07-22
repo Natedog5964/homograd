@@ -1461,7 +1461,7 @@ hook.Add("PlayerUse", "hgCanUseWhileFaking", function(ply, ent)
 		if PhysObj and PhysObj.GetMass and PhysObj:GetMass() > 14 then return false end
 	end
 
-	if IsValid(ply.FakeRagdoll) then return false end
+	-- if IsValid(ply.FakeRagdoll) then return false end
 	-- if ent.IsJModArmor then return false end
 end)
 
