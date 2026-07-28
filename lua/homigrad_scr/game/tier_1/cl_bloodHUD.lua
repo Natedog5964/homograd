@@ -1,3 +1,5 @@
+local blHUD = CreateClientConVar("hg_bloodhud", "1", true, true, "Toggles Blood display")
+
 local function BuildScaledFonts()
     local s = ScrH() / 1080
     if s < 0.1 then s = 1.0 end 
@@ -21,6 +23,9 @@ hook.Add("OnScreenSizeChanged", "FixBloodFontRes", BuildScaledFonts)
 hook.Add("InitPostEntity", "FixBloodFontOnJoin", BuildScaledFonts)
 
 hook.Add("HUDPaint", "DrawBloodAsHealth", function()
+
+	if not blHUD:GetBool() then return end
+	
     local ply = LocalPlayer()
     if not IsValid(ply) or not ply:Alive() then return end
 

@@ -47,12 +47,13 @@ SWEP.DrawCrosshair = false
 SWEP.ViewModel = "models/weapons/w_fal/w_fal.mdl"
 SWEP.WorldModel = "models/weapons/w_fal/w_fal.mdl"
 
-SWEP.vbwPos = Vector(0, 0, 0)
+SWEP.vbwPos = Vector(0, 0, 0) -- UNUSED
 
-SWEP.addAng = Angle(3.3, -2, 100)
-SWEP.addPos = Vector(0, -3.45, -0.4)
+SWEP.addAng = Angle(3.3, -2, 100) -- Sight Barrel Angle Usage: (Left/right,Up/down,Tilt)
 
-SWEP.SightPos = Vector(2, -3.6, -0.4)
+SWEP.addPos = Vector(33, -4.38, -4) -- Moves Muzzle point Usage: (forward/back,Up/down,Left/right)
+
+SWEP.SightPos = Vector(2, -3.6, -0.4) -- Sight pos, Usage: (forward/back,Up/down,Left/right)
 
 function SWEP:PrimaryAttack()
 	if not self:CanPrimaryAttack() then return end

@@ -47,7 +47,10 @@ hook.Add("PopulateToolMenu", "Homograd_Settings_Menu", function()
 		panel:CheckBox("Show roles while spectating", "homicide_get")
         panel:ControlHelp("Show traitors and stuff while you're spectating.")
 		
-		CreateHeader(panel, "Misc")
+		CreateHeader(panel, "UI")
+		
+		panel:CheckBox("Blood Hud", "hg_bloodhud")
+        panel:ControlHelp("Displays current blood level.")	
 		
 		panel:CheckBox("Death Screen", "hg_deathscreen")
         panel:ControlHelp("Turn Homigrad Death Screen on or off.")
@@ -58,6 +61,8 @@ hook.Add("PopulateToolMenu", "Homograd_Settings_Menu", function()
 		panel:CheckBox("Grab Hints", "hg_showhands")
         panel:ControlHelp("Show hints on whether your hand will stick and what object you're currently about to hold.")
 		
+
+		
         local resetBtn = panel:Button("Reset to Defaults")
         resetBtn.DoClick = function()
             RunConsoleCommand("hg_bodycam", "0")
@@ -66,9 +71,10 @@ hook.Add("PopulateToolMenu", "Homograd_Settings_Menu", function()
 			RunConsoleCommand("hg_fakecam_mode", "0")
 			RunConsoleCommand("hg_deathscreen", "1")
 			RunConsoleCommand("hg_showvoice", "1")
+			RunConsoleCommand("hg_bloodhud", "1")
 			RunConsoleCommand("hg_showhands", "1")
 			RunConsoleCommand("homicide_get", "0")
-			
+
             timer.Simple(0.1, function()
                 if IsValid(panel) then
                     spawnmenu.ActivateTool("Homograd_Settings")
@@ -82,13 +88,5 @@ hook.Add("PopulateToolMenu", "Homograd_Settings_Menu", function()
         
         panel:Help("")
         panel:Help("Homograd is peak.")
-    end)
-end)
-
-concommand.Add("reload_Homograd_options", function()
-    RunConsoleCommand("spawnmenu_reload")
-    timer.Simple(0.1, function()
-        g_SpawnMenu:Open()
-        spawnmenu.ActivateToolPanel(0, "Homograd_Settings_Menu")
     end)
 end)

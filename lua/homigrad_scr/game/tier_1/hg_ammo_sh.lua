@@ -130,7 +130,42 @@ local ammotypes = {
 		maxcarry = 80,
 		minsplash = 10,
 		maxsplash = 5
-	}
+	},
+	    [".45rubber"] = {
+        name = ".45 Rubber",
+        dmgtype = DMG_BULLET, 
+        tracer = TRACER_LINE,
+        plydmg = 0,
+        npcdmg = 0,
+        force = 100,
+        maxcarry = 80,
+        minsplash = 10,
+        maxsplash = 5
+    },
+
+    [".308winchester"] = {
+        name = ".308 Winchester",
+        dmgtype = DMG_BULLET, 
+        tracer = TRACER_LINE,
+        plydmg = 0,
+        npcdmg = 0,
+        force = 100,
+        maxcarry = 150,
+        minsplash = 10,
+        maxsplash = 5
+    },
+
+    [".45acp"] = {
+        name = ".45 acp",
+        dmgtype = DMG_BULLET, 
+        tracer = TRACER_LINE,
+        plydmg = 0,
+        npcdmg = 0,
+        force = 100,
+        maxcarry = 150,
+        minsplash = 10,
+        maxsplash = 5
+    }
 }
 
 local ammoents = {
@@ -187,6 +222,20 @@ local ammoents = {
 		Material = "models/hmcd_ammobox_556",
 		Scale = 1.6
 	},
+	    [".45rubber"] = {
+		Material = "models/hmcd_ammobox_9",
+		Scale = 0.8,
+    },
+
+    [".308winchester"] = {
+        Material = "models/hmcd_ammobox_556",
+		Scale = 1.2
+    },
+
+    [".45acp"] = {
+        Material = "models/hmcd_ammobox_9",
+		Scale = 0.8,
+    },
 }
 
 print("[HG} AmmoTypes loaded!")
@@ -322,6 +371,9 @@ local reverse = {
 	[".44 Magnum"] = ".44magnum",
 	["9x39 mm"] = "9x39mm",
 	["12.7x99 mm"] = "127x99mm",
+	[".45 Rubber"] = ".45rubber",
+	[".308 winchester"] = ".308winchester",
+	[".45 acp"] = ".45acp",
 	["AR2"] = "ar2",
 	["XBowBolt"] = "XBowBolt"
 }

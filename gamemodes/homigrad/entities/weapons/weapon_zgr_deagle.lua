@@ -1,6 +1,6 @@
 SWEP.Base = 'salat_base' -- base
 
-SWEP.PrintName = "Desert Eagle .50 AE"
+SWEP.PrintName = "Desert Eagle .44 Magnum"
 SWEP.Instructions = "Congrats it's a DEAGLE"
 SWEP.Category = "HOMO"
 SWEP.WepSelectIcon = "pwb2/vgui/weapons/deserteagle"
@@ -14,7 +14,7 @@ SWEP.AdminOnly = false
 SWEP.Primary.ClipSize = 7
 SWEP.Primary.DefaultClip = SWEP.Primary.ClipSize * 2
 SWEP.Primary.Automatic = false
-SWEP.Primary.Ammo = ".50 Action Express"
+SWEP.Primary.Ammo = ".44 Magnum"
 SWEP.Primary.Cone = 0
 SWEP.Primary.Damage = 45
 SWEP.Primary.Spread = 0
