@@ -56,8 +56,8 @@ SWEP.DrawCrosshair			= false
 SWEP.ViewModel				= "models/homicbox_weapons/m14/w_rif_m14.mdl"
 SWEP.WorldModel				= "models/homicbox_weapons/m14/w_rif_m14.mdl"
 
-SWEP.addPos = Vector(0,0,0) -- Moves Muzzle point Usage: (forward/back,Up/down,Left/right)
+SWEP.addPos = Vector(0,2,-.3) -- Moves Muzzle point Usage: (forward/back,Up/down,Left/right)
 
-SWEP.addAng = Angle(0,0,0) -- Sight Barrel Angle Usage: (Left/right,Up/down,Tilt)
+SWEP.addAng = Angle(.15,.1,0) -- Sight Barrel Angle Usage: (Left/right,Up/down,Tilt)
 
 SWEP.SightPos = Vector(-40,3,-.17) -- Sight pos, Usage: (forward/back,Up/down,Left/right)

@@ -3,26 +3,26 @@ file.CreateDir("homigrad/maps")
 SpawnPointsPage = SpawnPointsPage or 1
 
 SpawnPointsList = {
-	regular = {"normal", Color(255, 240, 200)}, -- Normal / Fallback For Most Spawns
+	regular = {"normal", Color(255, 240, 200, 50)}, -- Normal / Fallback For Most Spawns
 	
-	dm = {"dm", Color(155, 155, 255)}, -- ffa spawns 
+	dm = {"dm", Color(155, 155, 255, 50)}, -- ffa spawns 
 	
-	spawnpointst = {"red", Color(255, 0, 0)}, -- Team DeathMatch Spawns
+	spawnpointst = {"red", Color(255, 0, 0, 50)}, -- Team DeathMatch Spawns
 	
-	spawnpointsct = {"blue", Color(0, 0, 255)}, -- Team DeathMatch Spawns / Homicide Police
+	spawnpointsct = {"blue", Color(0, 0, 255, 50)}, -- Team DeathMatch Spawns / Homicide Police
 
 
 
-	spawnpoints_ss_police = {"police", Color(0, 0, 125)}, -- Homicide Police For Some Versions
+	spawnpoints_ss_police = {"police", Color(50, 0, 150, 150)}, -- Homicide Police For Some Versions
 	
-	car_red = {"car_red", Color(125, 125, 125)},
-	car_police = {"car_police", Color(125, 125, 125)},
+	car_red = {"car_red", Color(125, 0, 0, 100)},
+	car_police = {"car_police", Color(125, 0, 125, 100)},
 	
 	--[[	
 	spawnpointsseekers = {"seekers", Color(255, 0, 0)},	-- Hide&Seek/Juggernuat
 	spawnpointshiders = {"hiders", Color(0, 255, 0)}, -- Zombie/Hide&Seek/Juggernuat
 	spawnpoints_ss_exit = {"exit", Color(0, 125, 0), true}, -- Zombie/Hide&Seek
-
+	controlpoint = {"control_point", Color(25, 25, 25)}, -- control point
 
 -- Base Defence Only 
 	boxspawn = {"boxspawn", Color(25, 25, 25)},
@@ -39,7 +39,6 @@ SpawnPointsList = {
 	wac_hc_littlebird_ah6 = {"wac_hc_littlebird_ah6", Color(25, 25, 25)},
 	wac_hc_mi28_havoc = {"wac_hc_mi28_havoc", Color(25, 25, 25)},
 	wac_hc_blackhawk_uh60 = {"wac_hc_blackhawk_uh60", Color(25, 25, 25)},
-	controlpoint = {"control_point", Color(25, 25, 25)},
 	car_red = {"car_red", Color(125, 125, 125)},
 	car_blue = {"car_blue", Color(125, 125, 125)},
 	car_red_btr = {"car_red_btr", Color(125, 125, 125)},
@@ -51,10 +50,10 @@ SpawnPointsList = {
 	gred_emp_2a65 = {"gred_emp_2a65", Color(25, 25, 25)},
 	gred_emp_pak40 = {"gred_emp_pak40", Color(25, 25, 25)},
 	gred_emp_breda35 = {"gred_emp_breda35", Color(25, 25, 25)},
-	]]
 	
-	-- Unsure What This Does?
-	center = {"center", Color(255, 255, 255)}, 
+	-- Unsure What This Does? I Thinks It's Unused!	
+	center = {"center", Color(255, 255, 255, 25)}, 
+	]]
 }
 
 function GetDataMapName(name)

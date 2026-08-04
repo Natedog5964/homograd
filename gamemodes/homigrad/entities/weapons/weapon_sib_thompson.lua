@@ -45,7 +45,7 @@ SWEP.HoldType = "ar2"
 
 ------------------------------------------
 
-SWEP.Slot					= 3
+SWEP.Slot					= 2
 SWEP.SlotPos				= 0
 SWEP.DrawAmmo				= true
 SWEP.DrawCrosshair			= false

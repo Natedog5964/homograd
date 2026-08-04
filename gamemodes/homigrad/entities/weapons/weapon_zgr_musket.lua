@@ -50,7 +50,7 @@ SWEP.ViewModel = "models/weapons/v_jmod_musket.mdl"
 SWEP.WorldModel = "models/weapons/w_jmod_musket.mdl"
 
 SWEP.addPos = Vector( -43, 2, 1 )
-SWEP.addAng = Angle( 0, 180, 87.5 )
+SWEP.addAng = Angle( .05, 179.9, 87.5 )
 SWEP.SightPos = Vector( 5, 1.5, 2.8 )
 
 function SWEP:ApplyEyeSpray()

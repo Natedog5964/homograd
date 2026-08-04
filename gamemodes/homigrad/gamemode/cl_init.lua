@@ -434,8 +434,16 @@ local function ToggleMenu(toggle)
 				surface.PlaySound("UI/buttonclickrelease.wav")
 				RunConsoleCommand("hg_usecustommodel", "true")
 			end)
-
+			
 			plyModelMenu:SetIcon("icon16/user_suit.png")
+			
+			local plyBoneMenu = plyMenu:AddOption("Bone Menu", function()
+				RunConsoleCommand("hg_bone_editor")
+				surface.PlaySound("UI/buttonclickrelease.wav")
+			end)
+		
+		plyBoneMenu:SetIcon("icon16/user_suit.png")
+			
 
 			if LocalPlayer():GetInfo("hg_usecustommodel") == "true" then
 				local plyModelMenu = plyMenu:AddOption("#hg.cmenu.rmodel", function()

@@ -137,7 +137,7 @@ function SWEP:CanFireBullet()
 	return self.tries <= 0
 end
 
-SWEP.addPos = Vector(0, 0, 0)
-SWEP.addAng = Angle(0.95, -0.4, 0)
+SWEP.addPos = Vector(4, -2, -.75) -- Moves Muzzle point Usage: (forward/back,Up/down,Left/right)
+SWEP.addAng = Angle(1.1, -0.35, 0)
 
-SWEP.SightPos = Vector(-30, -0.5, -0.25)
+SWEP.SightPos = Vector(-24, -0.5, -0.25)

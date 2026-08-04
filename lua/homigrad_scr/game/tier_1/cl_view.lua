@@ -347,10 +347,12 @@ function CalcView(ply, vec, ang, fov, znear, zfar)
 	local tr = hg.eyeTrace(lply)
 
 	local angEye, vecEye
+	
+	local eyeUpOffset = eyeoffset or 0 
 
 	if GetConVar("hg_bodycam"):GetInt() == 0 then
 		angEye = lply:EyeAngles()
-		vecEye = tr.StartPos or lply:EyePos()
+		vecEye = eye and (eye.Pos + eye.Ang:Up() * eyeUpOffset) or (tr.StartPos or lply:EyePos())
 	else
 		local matrix = ply:GetBoneMatrix(body)
 		if matrix then
@@ -371,6 +373,7 @@ function CalcView(ply, vec, ang, fov, znear, zfar)
 
 		local att = ragdoll:GetAttachment(ragdoll:LookupAttachment("eyes"))
 		local eyeAngs = lply:EyeAngles()
+		local eyeUpOffset = eyeoffset or 0 
 
 		if GetConVar("hg_bodycam"):GetInt() == 1 then
 			local matrix = ragdoll:GetBoneMatrix(body)
@@ -378,8 +381,10 @@ function CalcView(ply, vec, ang, fov, znear, zfar)
 			if matrix then
 				local bodyang = matrix:GetAngles()
 				eyeAngs = att.Ang
-				att.Pos = eye and (matrix:GetTranslation() + bodyang:Up() * 0 + bodyang:Forward() * 10 + bodyang:Right() * -8) or lply:EyePos()
+				att.Pos = eye and (matrix:GetTranslation() + bodyang:Up() * 0 + bodyang:Forward() * 10 + bodyang:Right() * -8) or lply:EyePos() 
 			end
+		else
+			if att then att.Pos = att.Pos + att.Ang:Up() * eyeUpOffset end		
 		end
 
 		local anghook = GetConVar("hg_fakecam_mode"):GetFloat()

@@ -146,7 +146,13 @@ function SWEP:DrawHUD()
 		end
 
 		local hand = ply:GetAttachment(ply:LookupAttachment("anim_attachment_rh"))
-		local textpos = (hand.Pos + hand.Ang:Forward() * 7 + hand.Ang:Up() * 5 + hand.Ang:Right() * -1):ToScreen()
+		local textpos
+		if hand then 
+			textpos = (hand.Pos + hand.Ang:Forward() * 7 + hand.Ang:Up() * 5 + hand.Ang:Right() * -1):ToScreen()
+		else 
+			textpos = { x = ScrW() * 0.1, y = ScrH() * 0.8 }
+		end
+		
 		if self.revolver then
 			draw.DrawText(language.GetPhrase("hg.base.ammo.revolver"):format(tostring(ammoInMag)), "HomigradFontBig", textpos.x + randomx, textpos.y + randomy, text_color2, TEXT_ALIGN_RIGHT)
 			draw.DrawText(language.GetPhrase("hg.base.ammo.reserved"):format(tostring(ammoReserved)), "HomigradFontBig", textpos.x + randomxmag, textpos.y + 25 + randomymag, text_color1, TEXT_ALIGN_RIGHT)

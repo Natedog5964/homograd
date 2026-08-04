@@ -40,7 +40,7 @@ SWEP.HoldType = "revolver"
 
 ------------------------------------------
 
-SWEP.Slot					= 1
+SWEP.Slot					= 2
 SWEP.SlotPos				= 2
 SWEP.DrawAmmo				= true
 SWEP.DrawCrosshair			= false
@@ -50,6 +50,6 @@ SWEP.WorldModel				= "models/homicbox_weapons/pm/w_pist_pmt.mdl"
 
 SWEP.addPos = Vector(0,0,0) -- Moves Muzzle point Usage: (forward/back,Up/down,Left/right)
 
-SWEP.addAng = Angle(0,-1,0) -- Sight Barrel Angle Usage: (Left/right,Up/down,Tilt)
+SWEP.addAng = Angle(0,-1.1,0) -- Sight Barrel Angle Usage: (Left/right,Up/down,Tilt)
 
-SWEP.SightPos = Vector(-27,1,.05) -- Sight pos, Usage: (forward/back,Up/down,Left/right)
+SWEP.SightPos = Vector(-21,1,.05) -- Sight pos, Usage: (forward/back,Up/down,Left/right)

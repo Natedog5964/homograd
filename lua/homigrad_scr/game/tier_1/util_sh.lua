@@ -256,8 +256,18 @@ function hg.eyeTrace(ply, dist, ent, aim_vector)
 
 	local tr = {}
 	if not ply:IsPlayer() then return false end
+	
+	local eyeUpOffset = eyeoffset or 0
+	
+	local att = ply:GetAttachment(ply:LookupAttachment("eyes"))
+	local upVector = att and att.Ang:Up() or eyeAng:Up()
 
-	tr.start = trace.HitPos
+	local traceOrigin = trace.HitPos
+	if GetConVar("hg_bodycam"):GetInt() == 0 then
+		traceOrigin = traceOrigin + upVector * eyeUpOffset
+	end
+	
+	tr.start = traceOrigin
 	tr.endpos = tr.start + aim_vector * (dist or 60)
 	tr.filter = {ply, ent}
 

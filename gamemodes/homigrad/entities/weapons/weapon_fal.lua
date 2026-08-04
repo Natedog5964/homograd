@@ -49,7 +49,7 @@ SWEP.WorldModel = "models/weapons/w_fal/w_fal.mdl"
 
 SWEP.vbwPos = Vector(0, 0, 0) -- UNUSED
 
-SWEP.addAng = Angle(3.3, -2, 100) -- Sight Barrel Angle Usage: (Left/right,Up/down,Tilt)
+SWEP.addAng = Angle(3.25, -2, 100) -- Sight Barrel Angle Usage: (Left/right,Up/down,Tilt)
 
 SWEP.addPos = Vector(33, -4.38, -4) -- Moves Muzzle point Usage: (forward/back,Up/down,Left/right)
 

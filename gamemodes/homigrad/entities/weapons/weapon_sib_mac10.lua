@@ -48,7 +48,7 @@ SWEP.HoldType = "revolver"
 
 ------------------------------------------
 
-SWEP.Slot = 3
+SWEP.Slot = 2
 SWEP.SlotPos = 0
 SWEP.DrawAmmo = true
 SWEP.DrawCrosshair = false
@@ -58,6 +58,6 @@ SWEP.WorldModel = "models/homicbox_weapons/mac10/w_smg_mac10.mdl"
 
 SWEP.addPos = Vector(0,0,0) -- Moves Muzzle point Usage: (forward/back,Up/down,Left/right)
 
-SWEP.addAng = Angle(0,-1.4,0) -- Sight Barrel Angle Usage: (Left/right,Up/down,Tilt)
+SWEP.addAng = Angle(-.05,-1.7,0) -- Sight Barrel Angle Usage: (Left/right,Up/down,Tilt)
 
-SWEP.SightPos = Vector(-26,2.5,-.05) -- Sight pos, Usage: (forward/back,Up/down,Left/right)
+SWEP.SightPos = Vector(-24,2.5,-.05) -- Sight pos, Usage: (forward/back,Up/down,Left/right)

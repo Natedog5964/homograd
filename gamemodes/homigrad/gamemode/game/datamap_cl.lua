@@ -39,7 +39,7 @@ hook.Add("PostDrawTranslucentRenderables", "DrawSpawns", function()
 		black.r = color.r
 		black.g = color.g
 		black.b = color.b
-		black.a = 25
+		black.a = color.a
 
 		for _, point in pairs(info[3]) do
 			point = ReadPoint(point)
