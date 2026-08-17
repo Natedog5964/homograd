@@ -25,14 +25,14 @@ SWEP.Primary.ClipSize = 50
 SWEP.Primary.DefaultClip = 0
 SWEP.Primary.Automatic = true
 SWEP.Primary.Ammo = "pistol"
-SWEP.Primary.Cone = 0
+SWEP.Primary.Cone = 0										-- Bullet Spread
 SWEP.Primary.Damage = 100
-SWEP.Primary.Spread = 0
-SWEP.Primary.Sound = "weapons/fiveseven/fiveseven-1.wav"
-SWEP.Primary.SoundFar = "m9/m9_dist.wav"
-SWEP.Primary.Force = 0
+SWEP.Primary.Spread = 0										-- Unsure this Does anything								
+SWEP.Primary.Sound = "weapons/fiveseven/fiveseven-1.wav"	-- Near sound
+SWEP.Primary.SoundFar = "m9/m9_dist.wav"					-- Far sound
+SWEP.Primary.Force = 0										-- How much force your bullets have
 
-SWEP.Secondary.ClipSize = -1
+SWEP.Secondary.ClipSize = -1								
 SWEP.Secondary.DefaultClip = -1
 SWEP.Secondary.Automatic = false
 
@@ -44,21 +44,25 @@ SWEP.Weight = 5
 SWEP.AutoSwitchTo = false
 SWEP.AutoSwitchFrom = false
 
-SWEP.HoldType = ""
-SWEP.revolver = false
-SWEP.shotgun = false
+SWEP.HoldType = ""											-- Weapon Holdtype
+SWEP.revolver = false										-- If weapon is Revolver * Changes the Reload text
+SWEP.shotgun = false										-- If weapon is Shotgun * could not tell you what it does
+SWEP.TwoHands = false										-- If weapon is Two Handed * Changes how you killyourself
 
 SWEP.vbw = true
 SWEP.vbwPos = false
 SWEP.vbwAng = false
 SWEP.Suppressed = false
 
-SWEP.ReloadTime = 2
-SWEP.ShootWait = 0.12
-SWEP.NextShot = 0
+SWEP.ReloadTime = 2											-- Reload Time
+SWEP.ShootWait = 0.12										-- Delay before firing
+SWEP.NextShot = 0											-- Don't edit
 SWEP.Sight = false
 SWEP.ReloadSound = ""
-SWEP.TwoHands = false
+
+SWEP.addPos = Vector(0, 0, 0)								-- Sight Barrel Angle Usage: (Left/right,Up/down,Tilt)
+SWEP.addAng = Angle(0, 0, 0) 								-- Moves Muzzle point Usage: (forward/back,Up/down,Left/right)
+-- SWEP.SightPos = Vector(0, 0, 0)							 Sight pos, Usage: (forward/back,Up/down,Left/right) * used in client code block at bottom of file
 
 FrameTimeClamped = 1 / 66
 ftlerped = 1 / 66
@@ -399,9 +403,6 @@ function SWEP:Reload()
 		self.AmmoChek = 5
 	end
 end
-
-SWEP.addPos = Vector(0, 0, 0)
-SWEP.addAng = Angle(0, 0, 0)
 
 if SERVER then
 	util.AddNetworkString("hg_shot_sounds")

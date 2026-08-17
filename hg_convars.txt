@@ -1,0 +1,145 @@
+
+FUN 
+
+("removebone", function(ply) Remove someone's bone just by looking at them 
+("jacky_ravebreak", function(ply, cmd, args) RAVE
+("jacky_crazy_effect", function(ply, cmd, args)
+EFFECTS: balls, cheese, ravebreak, nope, fart, cluster, revenge*, knockout, spiders, inferno, mines, frags, wtfboom, succ...
+tsarbomba, damnitgarry
+
+COMMANDS
+
+JMOD USEFULL
+
+("jmod_friends", "Opens a menu for you to modify your friend list.") function(ply)
+("jmod_ez_trigger", "Triggers any EZ bombs/mini-nades you have armed.") function(ply, help)
+("jmod_ez_bombdrop", "Drops any bombs you have armed and welded.") function(ply, cod, args)
+("jmod_ez_launch", "Fires any active missiles you own.") function(ply, cmd, args)
+("jmod_airdropplayer", "Airdrops specified player on specified location") function(ply, cmd, args) WTF  DOES THIS EVEN DO??
+
+("jacky_wep_debug", "Helps with EZ weapon debugging.") function(ply, cmd, args) Useful for debugging homigrad weapons too
+("jmod_debug_fullarmor", "Adds full armour onto yourself.") function(ply, cmd, args)
+("jacky_sandbox", "Sets us to Sandbox god mode thing.") function(ply, cmd, args)
+("jmod_admin_cleanup", "Does a server-wide admin cleanup of everything, including players.") function(ply, cmd, args)
+
+MAP VOTE I duunno how these work
+("solidmapvote_nomination_menu", function()
+("solidmapvote_vote", function(ply, cmd, args)
+("solidmapvote_nominate", function(ply, cmd, args)
+("solidmapvote_request_mappool", function(ply, cmd, args)
+("solidmapvote_request_nominations", function(ply, cmd, args)
+("solidmapvote_close_ui", function()
+
+Controls
+
+("suicide", function(ply) Aims guns at yourself
+("fake", function(ply)
+("hg_rolldrum", rolldrum) rolls drum of 357
+("hg_ammomenu", function(ply, cmd, args) AmmoMenu(ply) end) Opens ammo menu
+("freecamera", function(ply) Locks your camera where ever you typed this
+
+Dont work
+("+leanleft", function(ply, cmd, args) 
+("-leanleft", function(ply, cmd, args)
+("+leanright", function(ply, cmd, args)
+("-leanright", function(ply, cmd, args)
+
+hg_ 
+
+("hg_organisminfo", function(ply) Prints out organism info i.e blood loss
+	("Usage: hg_organisminfo <Name>") Defaults to player
+("hg_hungryinfo", function(ply)
+	("Usage: hg_organisminfo <Name>") Defaults to player
+("hg_getguilt", function(ply) Prints Out Guilt Info For All Players
+("hg_spawninfo", function() Prints Info about what hg spawn points are on the map
+("hg_listmodels", function(ply, cmd, args) Command to list all SteamIDs and their assigned player models
+
+("hg_playermodel", function(ply, cmd, args) Command to assign or overwrite a player model for a given SteamID
+	("Usage: hg_playermodel <SteamID> <Model Directory>")
+("hg_removemodel", function(ply, cmd, args) Command to remove a player model associated with a given SteamID
+	("Usage: hg_removemodel <SteamID>")
+("hg_fogsetcolor", function(ply, cmd, args) sets fog color RGB
+("hg_fogset", function(ply, cmd, args) Sets fog distance 
+("hg_fog", function(ply) Prints fog info
+("hg_getanim",function() Opens a menu to view all aminations 
+("hg_organism_setvalue", function(ply, cmd, args) 
+	("Usage: IDK") 
+
+-
+
+
+("jmod_debug_killme", "Makes all your entities hate you.") function(ply) Doesnt seem to work 
+("jmod_reloadconfig", "Refreshes your server config file located in garrysmod/data/jmod_config.txt") function(ply)
+("jmod_resetconfig", "Refreshes your server config file located in garrysmod/data/jmod_config.txt") function(ply)
+("jmod_force_lua_config_sync", "Manually forces the Lua Config for Jmod to sync.") function(ply, cmd, args)
+("jmod_debug_checksalvage", "Shows the potential salvaging yield from whatever you're looking at.") function(ply, cmd, args)
+("jmod_debug_shownaturalresources", "Shows locations for natural resource extraction.") function(ply, cmd, args)
+("jmod_admin_sanitizemap", "Removes JMod radiation and from map and players") function(ply, cmd, args)
+("jmod_insta_upgrade", "Instantly upgrades upgradable machines you are looking at.") function(ply)
+("jmod_ez_inv", "Opens your EZ inventory to manage your armour.") function(ply, cmd, args)
+("jmod_ez_toggleeyes", function()
+("jmod_resethints", "Resets your Jmod hints.") function(ply, cmd, args)
+("jmod_wiki", "Opens the Jmod Wiki page.") function()
+("jmod_cl_reloadconfig", " " function(ply)
+("jmod_debug_destroy", "Destroys the current JMod thing you are looking at") function(ply, cmd, args)
+("jmod_debug_countclientsidemodels", function()
+("jmod_debug_addoutpost", "Adds another radio outpost for your team.") function(ply, cmd, args)
+("jmod_debug_givearmortotarget", "Adds full armour onto yourself.") function(ply, cmd, args) ???
+("jacky_supershadows", function(ply, cmd, args) supershadows 
+("jmod_debug_removeoutpost", "Removes a radio outpost for your team.") function(ply, cmd, args)
+
+("playermodel_selector", Menu.Toggle) Used in c-menu
+("hg_appearance_menu", function() EasyAppearance.Menu(LocalPlayer()) end) Used in c-menu
+
+CONVARS
+
+CreateConVar("lean_speed", 5, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_CLIENTCMD_CAN_EXECUTE})
+
+CreateConVar("lean_strength", 11, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_CLIENTCMD_CAN_EXECUTE})
+
+CreateConVar("hg_hidecmenu", 1, FCVAR_ARCHIVE, "Hide/Show C menu options", 0, 1)
+
+CreateConVar("hg_PreCache_Models", "1", {FCVAR_ARCHIVE, FCVAR_REPLICATED}, "Toggles Models Precaching", 0, 1)
+
+CreateConVar("homicide_setmode", "", FCVAR_LUA_SERVER, "")
+
+CLIENT
+
+CreateClientConVar("ar3_babymode", 0, true, true, "Toggles Baby Mode For Ar3")
+
+CreateClientConVar("hg_flashlight_enable", "1", true, false)
+CreateClientConVar("hg_flashlight_distance", "4000", true, false)
+
+CreateClientConVar("hg_hint", "1", true, false) toggles some hints
+CreateClientConVar("hg_vbw_draw", "1", true, false) toggles weapons rendering on players backs
+CreateClientConVar("hg_vbw_dis", "2000", true, false) sets how far weapons on player back will render
+
+CreateClientConVar("hg_showvoice", 1, true, false, "Show or hide the voice icon (1 = show, 0 = hide)")
+CreateClientConVar("hg_scopespeed", "0.5", true, false, "Changes the speed of the sniper scope when zoomed in.", 0, 5)
+CreateClientConVar("hg_bodycam", "0", true, false, nil, 0, 1) Turns on body cam 
+CreateClientConVar("hg_fakecam_mode", "0", true, false, nil, 0, 1) mounts fake camera to chest
+CreateClientConVar("hg_deathscreen", "1", true, false, nil, 0, 1) Toggles death screen
+CreateClientConVar("hg_fov", "120", true, false, nil, 70, 120) changes fov
+CreateClientConVar("hg_showhands", 1, true, false, "Show hints on whether your hand will stick and what object you're currently about to hold.")
+CreateClientConVar("homicide_get", 0, true, true, "Show traitors and stuff while you're spectating", 0, 1)
+CreateClientConVar("hg_show_hitposmuzzle", "0", false, false, "", 0, 1)
+
+
+
+CreateClientConVar("hg_random_appearance", 0, true, false, "", 0, 1) makes player appearance randomized
+CreateClientConVar("hg_usecustommodel", "false", true, true, "Allows usage of custom models.")
+
+CreateClientConVar("cl_playermodel_selector_unlockflexes", "0", false, true) what are Flexes??
+CreateClientConVar("cl_playermodel_selector_bgcolor_custom", "1", true, true) Makes playermodel selector your custom color 
+CreateClientConVar("cl_playermodel_selector_bgcolor_trans", "1", true, true) Makes playermodel selector translucent 
+CreateClientConVar("hg_3dsky", "1", true) vailed way to run r_3dsky only works after reloading map, used in skybox menu
+
+UNUSED / NOT UNDERSTOOD
+
+CreateClientConVar("hg_customname", "", true) not sure what the point of this is?
+CreateClientConVar("hg_deathsound", "1", true, false, nil, 0, 1) Doesnt matter as the sound files are missing anyway
+CreateClientConVar("hg_skins", "1", true, false, "", 0, 1) for weapon skins not fully implemented 
+CreateClientConVar("hg_appearance_dis", "6000", true, false) Not Used At all
+CreateClientConVar("hg_funny_camera", "0", true, false, nil, 0, 1) Unused
+CreateClientConVar("hg_cool_camera", "0", true, false, "epic camera", 0, 1) Have no clue what this does
+CreateClientConVar("hg_smooth_cam", "1", true, false, nil, 0, 1) Unused

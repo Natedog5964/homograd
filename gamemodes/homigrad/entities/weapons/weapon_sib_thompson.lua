@@ -58,5 +58,3 @@ SWEP.addPos = Vector(0,-1.7,0) -- Moves Muzzle point Usage: (forward/back,Up/dow
 SWEP.addAng = Angle(0,-.75,0) -- Sight Barrel Angle Usage: (Left/right,Up/down,Tilt)
 
 SWEP.SightPos = Vector(-27,-.9,-.05) -- Sight pos, Usage: (forward/back,Up/down,Left/right)
-
---SWEP.Mobility = 1.3 

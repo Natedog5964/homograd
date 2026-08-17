@@ -113,7 +113,7 @@ if CLIENT then
 
 						cam.Start3D()
 							render.SetMaterial(material)
-							render.DrawSprite(pos + angla:Forward() * 5, 32, 32, color_white)
+							render.DrawSprite(pos + angla:Forward() * 2, 20, 20, color_white)
 						cam.End3D()
 					end
 				end

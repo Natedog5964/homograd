@@ -180,7 +180,7 @@ end
 
 function SpawnPolicePlayers()
 	local points = ReadDataMap("spawnpoints_ss_police")
-	if not points or #points == 0 then points = ReadDataMap("spawnpointsct") end
+	if not points or #points == 0 then points = ReadDataMap("spawnpointsct") end	-- This Doesn't Correctly Fallback to ct 
 
 	local playsound = true
 	local prePolicePlayers = PlayersDead(true)
