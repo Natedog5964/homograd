@@ -1220,9 +1220,9 @@ hook.Add("Player Think", "FakeControl", function(ply, time)
 		else
 			if IsValid(rag.ZacConsLH) then
 				ply:SetNWBool("lhon", false)
-
-			if fingerL1 then	rag:ManipulateBoneAngles(rag:LookupBone("ValveBiped.Bip01_L_Finger1"), Angle(0, 0, 0), true) end
-			if fingerL2 then	rag:ManipulateBoneAngles(rag:LookupBone("ValveBiped.Bip01_L_Finger2"), Angle(0, 0, 0), true) end
+				
+				if fingerL1 then rag:ManipulateBoneAngles(rag:LookupBone("ValveBiped.Bip01_L_Finger1"), Angle(0, 0, 0), true) end
+				if fingerL2 then rag:ManipulateBoneAngles(rag:LookupBone("ValveBiped.Bip01_L_Finger2"), Angle(0, 0, 0), true) end
 
 				rag.ZacConsLH:Remove()
 				rag.ZacConsLH = nil
@@ -1276,9 +1276,9 @@ hook.Add("Player Think", "FakeControl", function(ply, time)
 		else
 			if IsValid(rag.ZacConsRH) then
 				ply:SetNWBool("rhon", false)
-
-			if fingerR1 then rag:ManipulateBoneAngles(rag:LookupBone("ValveBiped.Bip01_R_Finger1"), Angle(0, 0, 0), true) end
-			if fingerR2 then rag:ManipulateBoneAngles(rag:LookupBone("ValveBiped.Bip01_R_Finger2"), Angle(0, 0, 0), true) end
+				
+				if fingerR1 then rag:ManipulateBoneAngles(rag:LookupBone("ValveBiped.Bip01_R_Finger1"), Angle(0, 0, 0), true) end
+				if fingerR2 then rag:ManipulateBoneAngles(rag:LookupBone("ValveBiped.Bip01_R_Finger2"), Angle(0, 0, 0), true) end
 
 				rag.ZacConsRH:Remove()
 				rag.ZacConsRH = nil
