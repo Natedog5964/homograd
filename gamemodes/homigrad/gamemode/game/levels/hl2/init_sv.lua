@@ -74,7 +74,6 @@ function hl2.PlayerSpawn2(ply, teamID)
 	end
 	ply:SetPlayerColor(Vector(0, 0, 0.6))
 	
-	ply:Give("weapon_hl3_crowbar")
 	ply:Give("weapon_hands")
 	
 	-- FIXME: This doesn't seem to work.
@@ -95,7 +94,7 @@ function hl2.GuiltLogic()
 end
 
 function hl2.ShouldSpawnLoot()
-	return true
+	return false
 end
 
 util.AddNetworkString("hl2_die")

@@ -37,6 +37,9 @@ hook.Add("PopulateToolMenu", "Homograd_Settings_Menu", function()
         panel:ControlHelp("Your FOV.")
         panel:Help("")
 		
+		panel:CheckBox("PM in vehicles", "hg_pminvehicle")
+        panel:ControlHelp("Displays Player Model While In Vehicle.")
+		
 		CreateHeader(panel, "Gameplay")
 		
 		local ScopeSpeedSlider = panel:NumSlider("Sniper Scoped Speed", "hg_scopespeed", 0.1, 10, 1)

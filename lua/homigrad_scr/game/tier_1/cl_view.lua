@@ -8,6 +8,7 @@ CreateClientConVar("hg_bodycam", "0", true, false, nil, 0, 1)
 CreateClientConVar("hg_fakecam_mode", "0", true, false, nil, 0, 1)
 CreateClientConVar("hg_deathsound", "1", true, false, nil, 0, 1)
 CreateClientConVar("hg_deathscreen", "1", true, false, nil, 0, 1)
+CreateClientConVar("hg_pminvehicle", "0", true, false, "Draws player model when in vehicles", 0, 1)
 
 function SETFOV(value)
 	CameraSetFOV = value or hg_fov:GetInt()
@@ -514,6 +515,20 @@ hide = {
 	["CHudSecondaryAmmo"] = true,
 	["CHudCrosshair"] = true,
 }
+
+hook.Add("ShouldDrawLocalPlayer", "Homigrad_DrawInLVS", function(ply)
+	if GetConVar("hg_pminvehicle"):GetBool() then
+		if not IsValid(ply) or not ply:Alive() then return end
+
+		local vehicle = ply:GetVehicle()
+			if IsValid(vehicle) then
+				if ply:GetNoDraw() then
+					ply:SetNoDraw(false)
+				end
+            return true 
+		end
+	end
+end)
 
 hook.Add("HUDShouldDraw", "HideHUD", function(name) if hide[name] then return false end end)
 

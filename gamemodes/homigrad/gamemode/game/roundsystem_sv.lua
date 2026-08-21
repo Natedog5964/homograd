@@ -46,7 +46,7 @@ COMMANDS.levelrandom = {
 			levelrandom = false
 		end
 
-		if GetConVar("hg_HomicideOnly"):GetBool() or GetConVar("hg_ConstructOnly"):GetBool() then
+		if GetConVar("hg_HomicideOnly"):GetBool() or GetConVar("hg_ConstructOnly"):GetBool() or GetConVar("hg_hl2Only"):GetBool() then
 			levelrandom = false
 		end
 

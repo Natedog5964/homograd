@@ -99,6 +99,8 @@ CreateConVar("lean_strength", 11, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_CLIENTCMD_CAN
 
 CreateConVar("hg_hidecmenu", 1, FCVAR_ARCHIVE, "Hide/Show C menu options", 0, 1)
 
+CreateConVar("hg_usewhilefaking", 0, nil, "Allows player to use interact while ragdolled", 0, 1)
+
 CreateConVar("hg_PreCache_Models", "1", {FCVAR_ARCHIVE, FCVAR_REPLICATED}, "Toggles Models Precaching", 0, 1)
 
 CreateConVar("homicide_setmode", "", FCVAR_LUA_SERVER, "")
@@ -114,6 +116,7 @@ CreateClientConVar("hg_hint", "1", true, false) toggles some hints
 CreateClientConVar("hg_vbw_draw", "1", true, false) toggles weapons rendering on players backs
 CreateClientConVar("hg_vbw_dis", "2000", true, false) sets how far weapons on player back will render
 
+CreateClientConVar("hg_pminvehicle", "0", true, false, "Draws player model when in vehicles", 0, 1)
 CreateClientConVar("hg_showvoice", 1, true, false, "Show or hide the voice icon (1 = show, 0 = hide)")
 CreateClientConVar("hg_scopespeed", "0.5", true, false, "Changes the speed of the sniper scope when zoomed in.", 0, 5)
 CreateClientConVar("hg_bodycam", "0", true, false, nil, 0, 1) Turns on body cam 

@@ -1,3 +1,4 @@
+util.AddNetworkString("info_o2")
 util.AddNetworkString("info_blood")
 util.AddNetworkString("organism_info")
 
@@ -87,6 +88,9 @@ hook.Add("Player Think", "hgBlood", function(ply, time)
 	net.Start("info_blood")
 		net.WriteFloat(ply.Blood)
 	net.Send(ply)
+	net.Start("info_o2")
+		net.WriteFloat(ply.o2)
+	net.Send(ply)
 end)
 
 local math_random = math.random
@@ -169,6 +173,9 @@ hook.Add("Player Death", "deathblood", function(ply)
 
 	net.Start("info_blood")
 		net.WriteFloat(ply.Blood)
+	net.Send(ply)
+	net.Start("info_o2")
+		net.WriteFloat(ply.o2)
 	net.Send(ply)
 end)
 

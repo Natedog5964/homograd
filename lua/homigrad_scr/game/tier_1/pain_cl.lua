@@ -1,8 +1,11 @@
-pain, painlosing, impulse = 0, 0, 0
+pain, painlosing, impulse, o2 = 0, 0, 0, 1
 
 net.Receive("info_pain", function()
 	pain = net.ReadFloat()
 	painlosing = net.ReadFloat()
+end)
+net.Receive("info_o2", function()
+	o2 = net.ReadFloat()
 end)
 
 local math_Clamp = math.Clamp
@@ -29,6 +32,8 @@ hook.Add("HUDPaint", "PainEffect", function()
 
 		if pain and pain > 250 then
 			draw.DrawText(language.GetPhrase("hg.pain.hint1"):format(tostring(math.floor((pain - 250) / 20 + 1))), "HomigradFontSmall", ScrW() / 2, ScrH() / 1.8, colwhite, TEXT_ALIGN_CENTER)
+		elseif o2 and o2 <= 0 then
+			draw.DrawText(language.GetPhrase("hg.pain.o2loss"), "HomigradFontSmall", ScrW() / 2, ScrH() / 1.8, colred, TEXT_ALIGN_CENTER)
 		elseif blood and blood < 3000 then
 			draw.DrawText(language.GetPhrase("hg.pain.hint2"), "HomigradFontSmall", ScrW() / 2, ScrH() / 1.8, colred, TEXT_ALIGN_CENTER)
 		end

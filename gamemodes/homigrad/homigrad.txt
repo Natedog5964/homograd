@@ -52,5 +52,14 @@
 			"default"		"0"
 			"singleplayer"	"1"
 		}
+		6
+		{
+			"name"			"hg_hl2Only"
+			"text"			"HL2 mode only"
+			"help"			"hl2 BRO."
+			"type"			"CheckBox"
+			"default"		"0"
+			"singleplayer"	"1"
+		}
 	}
 }

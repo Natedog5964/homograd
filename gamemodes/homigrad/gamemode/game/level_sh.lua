@@ -5,11 +5,14 @@ function TableRound(name)
 end
 
 timer.Simple(0, function()
-	-- and not (string.find(string.lower(game.GetMap()), "rp_desert_conflict")) then
 	if roundActiveName == nil then
 		if GetConVar("hg_ConstructOnly"):GetBool() == true then
 			roundActiveName = "construct"
 			roundActiveNameNext = "construct"
+		
+		elseif GetConVar("hg_hl2Only"):GetBool() == true then
+			roundActiveName = "hl2"
+			roundActiveNameNext = "hl2"
 		else
 			roundActiveName = "homicide"
 			roundActiveNameNext = "homicide"

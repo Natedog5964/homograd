@@ -1452,6 +1452,8 @@ hook.Add("Player Think", "hgInternalBleeding", function(ply, time)
 	end
 end)
 
+CreateConVar("hg_usewhilefaking", 0, nil, "Allows player to use interact while ragdolled", 0, 1)
+
 hook.Add("PlayerUse", "hgCanUseWhileFaking", function(ply, ent)
 	local class = ent:GetClass()
 
@@ -1460,9 +1462,10 @@ hook.Add("PlayerUse", "hgCanUseWhileFaking", function(ply, ent)
 
 		if PhysObj and PhysObj.GetMass and PhysObj:GetMass() > 14 then return false end
 	end
-
-	-- if IsValid(ply.FakeRagdoll) then return false end
-	-- if ent.IsJModArmor then return false end
+	if not GetConVar("hg_usewhilefaking"):GetBool() then
+		if IsValid(ply.FakeRagdoll) then return false end
+		-- if ent.IsJModArmor then return false end
+	end
 end)
 
 hook.Add("PlayerSay", "hgCantTalkWhileUncon", function(ply, text)
