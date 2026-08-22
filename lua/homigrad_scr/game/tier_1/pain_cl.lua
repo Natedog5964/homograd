@@ -20,6 +20,14 @@ surface.CreateFont("HomigradFontBig", {
 	outline = false,
 	shadow = true
 })
+-- This is for compat with a epic grapple mod stops errors 
+surface.CreateFont("ZCity_Tiny", {
+	font = "Roboto",
+	size = ScreenScale(8),
+	weight = 200,
+	outline = true,
+	shadow = true
+})
 
 hook.Add("HUDPaint", "PainEffect", function()
 	if not LocalPlayer():Alive() or LocalPlayer():Team() == 1002 then return end

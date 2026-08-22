@@ -18,10 +18,10 @@ It features a somewhat realistic health and movement system and offers several s
 
 ## Installation | Manual
 
-1. [Download the repository](https://github.com/JonnyBro/homigrad/archive/refs/heads/main.zip).
-2. Subscribe to this collection: [\*click\*](https://steamcommunity.com/sharedfiles/filedetails/?id=3596578508).
-3. Extract the `homigrad-main` folder and place it in `your_gmod_install/garrysmod/addons` folder or server’s `addons` directory.
-4. Move the `data` folder from `homigrad-main` to `your_gmod_install/garrysmod/`.
+1. [Download the repository](https://github.com/Natedog5964/homograd/archive/refs/heads/main.zip).
+2. Subscribe to this collection: [\*click\*](https://steamcommunity.com/sharedfiles/filedetails/?id=3597820535).
+3. Extract the `homograd-main` folder and place it in `your_gmod_install/garrysmod/addons` folder or server’s `addons` directory.
+4. Move the `data` folder from `homograd-main` to `your_gmod_install/garrysmod/`.
    - This folder contains some premaid spawnpoints data that are used in some modes.
 5. Ensure the gamemode is set to `Homigrad` (use `+gamemode homigrad` for servers).
 
@@ -41,7 +41,7 @@ On a dedicated server, please use `+tickrate number`. On the client (when you ho
 
 ### What language is your fork in?
 
-My fork supports English, Russian, and Ukrainian languages!
+My fork supports English only right now.
 
 ### Can I use movement/weapons code from your fork in other gamemodes (Sandbox, TTT, etc)?
 
