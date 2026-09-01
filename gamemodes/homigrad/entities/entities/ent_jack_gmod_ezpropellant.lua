@@ -2,7 +2,7 @@
 AddCSLuaFile()
 ENT.Base = "ent_jack_gmod_ezresource"
 ENT.PrintName = "EZ Propellant Bottle"
-ENT.Category = "JMod - EZ Explosives"
+ENT.Category = "JMod - EZ Misc"
 ENT.IconOverride = "materials/ez_resource_icons/propellant.png"
 ENT.Spawnable = true
 ENT.AdminSpawnable = true

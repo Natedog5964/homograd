@@ -75,6 +75,7 @@ function construct.PlayerSpawn2(ply, teamID)
 		EasyAppearance.SetAppearance(ply)
 	end
 	ply:SetPlayerColor(Vector(0, 0, 0.6))
+	ply.allowFlashlight = true
 	
 	ply:Give("weapon_physgun")
 	ply:Give("weapon_hands")

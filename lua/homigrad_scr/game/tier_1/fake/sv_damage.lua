@@ -281,7 +281,7 @@ hook.Add("Ragdoll Collide", "hgOrgansDamage", function(ragdoll, data)
 	if not ragdoll:IsRagdoll() then return end
 	if data.HitEntity:IsPlayerHolding() then return end
 
-	velocityDamage(ragdoll, data)
+	velocityDamage(ragdoll, data) -- This controls all velocity damage 
 end)
 
 local bonenames = {

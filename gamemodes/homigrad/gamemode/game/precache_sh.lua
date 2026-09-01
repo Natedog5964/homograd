@@ -115,4 +115,23 @@ if precache:GetBool() then
 	util.PrecacheModel("models/weapons/w_jmod_r700.mdl")
 	util.PrecacheModel("models/weapons/w_knije_t.mdl")
 	util.PrecacheModel("models/weapons/w_models/w_jyringe_jroj.mdl")
+	util.PrecacheModel("models/zgrad/baguette/baguette.mdl")  -- Zgrad weapons
+	util.PrecacheModel("models/zgrad/catgun/w_catgun.mdl")
+	util.PrecacheModel("models/zgrad/flintlock/flintlock.mdl")
+	util.PrecacheModel("models/zgrad/kar98k/w_kar98k.mdl")
+	util.PrecacheModel("models/zgrad/mosin/w_grub_mosin.mdl")
+	util.PrecacheModel("models/zgrad/mp40/w_grub_mp40.mdl")
+	util.PrecacheModel("models/zgrad/pickle/pickle.mdl")
+	util.PrecacheModel("models/zgrad/ppsh/w_smg_ppsh.mdl")
+	util.PrecacheModel("models/zgrad/screw/screw.mdl")
+	util.PrecacheModel("models/zgrad/staff/s_staff.mdl")
+	util.PrecacheModel("models/zgrad/stielhandgranate24/stielhandgranate24.mdl")
+	util.PrecacheModel("models/homicbox_weapons/m14/w_rif_m14.mdl") -- Homicbox Weapons
+	util.PrecacheModel("models/homicbox_weapons/m1911/w_pist_m1911.mdl")
+	util.PrecacheModel("models/homicbox_weapons/mac10/w_smg_mac10.mdl")
+	util.PrecacheModel("models/homicbox_weapons/pm/w_pist_pmt.mdl")
+	util.PrecacheModel("models/homicbox_weapons/thompson/w_thompson.mdl")
+	util.PrecacheModel("models/weapons/w_357_magnum/w_357_magnum.mdl") -- Half-Life 2 Weapons
+	util.PrecacheModel("models/weapons/w_fal/w_fal.mdl")
+	util.PrecacheModel("models/weapons/w_hl2_usp/w_hl2_usp.mdl")
 end
