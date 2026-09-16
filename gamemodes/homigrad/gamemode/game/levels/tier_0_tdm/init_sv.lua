@@ -271,16 +271,18 @@ local cars = {
 }
 
 function tdm.bullshit() -- This For Anything Else
-	for _, pt in pairs(ReadDataMap("car_red") or {}) do tdm.SpawnEnt({pt}, cars[math.random(#cars)]) end -- I an disappointed 
 	--tdm.SpawnSimfphys(ReadDataMap("car_blue"), "lvs_wheeldrive_dc_fairlane500")
 	tdm.SpawnEnt(ReadDataMap("car_police"), "lvs_wheeldrive_monaco_cop")
+	for _, pt in pairs(ReadDataMap("car_red") or {}) do tdm.SpawnEnt({pt}, cars[math.random(#cars)]) end -- I am disappointed
 end
 
 function tdm.SpawnEnt(list, name, func)
 	for _, point in pairs(list) do
 		local ent = ents.Create(name)
-		ent:SetPos(point[1])
-		ent:SetAngles(point[2])
-		ent:Spawn()
+		if IsValid(ent) then
+			ent:SetPos(point[1])
+			ent:SetAngles(point[2])
+			ent:Spawn()
+		end
 	end
 end

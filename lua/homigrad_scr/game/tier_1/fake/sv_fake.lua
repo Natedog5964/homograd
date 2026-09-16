@@ -1452,7 +1452,7 @@ hook.Add("Player Think", "hgInternalBleeding", function(ply, time)
 	end
 end)
 
-CreateConVar("hg_usewhilefaking", 0, nil, "Allows player to use interact while ragdolled", 0, 1)
+CreateConVar("hg_usewhilefaking", 0, FCVAR_ARCHIVE, "Allows player to use interact while ragdolled")
 
 hook.Add("PlayerUse", "hgCanUseWhileFaking", function(ply, ent)
 	local class = ent:GetClass()

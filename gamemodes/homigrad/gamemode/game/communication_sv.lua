@@ -14,8 +14,9 @@ local function logic(output, input, isChat, teamonly)
 
 		local result, is3D = hook.Run("Player Can Lisen", output, input, isChat, teamonly)
 		if result ~= nil then return result, is3D end
-
-		if output:Alive() and input:Alive() and not output.unconscious and not input.unconscious then
+		
+		-- if output:Alive() and input:Alive() and not output.unconscious and not input.unconscious then
+		if output:Alive() and input:Alive() then
 			if input:GetPos():DistToSqr(output:GetPos()) < 800000 and not teamonly then
 				return true, true
 			end

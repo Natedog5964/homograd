@@ -183,7 +183,7 @@ COMMANDS.help = {
 
 		text = string.sub(text, 1, #text - 1)
 
-		ply:ChatPrint(text)
+		print(text)
 	end,
 	0
 }

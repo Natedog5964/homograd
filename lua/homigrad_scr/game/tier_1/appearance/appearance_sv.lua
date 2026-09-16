@@ -70,11 +70,21 @@ function EasyAppearance.SetAppearance(ply)
 		EasyAppearance.SendRequest(ply)
 	else
 		local selectedModel = ply:GetInfo("cl_playermodel") -- Retrieve the model selected by the player
+		local bodygroups = ply:GetInfo("cl_playerbodygroups") -- Retrieve the bodygroups selected by the player
+		local plyskin = tonumber(ply:GetInfo("cl_playerskin")) or 0 -- Retrieve the skin selected by the player
 		local modelToUse = ply:IsBot() and EasyAppearance.GetRandomAppearance().strPath or player_manager.TranslatePlayerModel(selectedModel)
 
 		if modelToUse == "models/player/kleiner.mdl" then return print("Model being utilised is invalid. Most likely set to another model we don't have on the server!") end
-
-		ply:SetSubMaterial()
+		
 		ply:SetModel(modelToUse)
+		
+		local bgTable = string.Explode(" ", bodygroups) -- Format cl_playerbodygroups in a way usable with ply:SetBodygroup()
+		for i = 0, ply:GetNumBodyGroups() - 1 do
+			local bgValue = tonumber(bgTable[i + 1]) or 0
+			ply:SetBodygroup(i, bgValue)
+		end
+		
+		ply:SetSubMaterial()
+		ply:SetSkin(plyskin)
 	end
 end

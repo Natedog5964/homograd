@@ -86,3 +86,19 @@ guilt:addParam({
 })
 guilt:defaultAccess(ULib.ACCESS_SUPERADMIN)
 guilt:help("Toggles guilt system for a given player(s). (currently does nothing)")
+
+-- Fullup
+function ulx.hg_fullup(ply, targets)
+	for _, v in pairs(targets) do
+		Fullup(v)
+	end
+
+	ulx.fancyLogAdmin(ply, "#A Reset #T's health", targets)
+end
+
+local fullup = ulx.command("Homigrad", "ulx fullup", ulx.hg_fullup, "!fullup")
+fullup:addParam({
+	type = ULib.cmds.PlayersArg
+})
+fullup:defaultAccess(ULib.ACCESS_SUPERADMIN)
+fullup:help("Resets all health for given player(s).")

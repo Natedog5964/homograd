@@ -1,3 +1,33 @@
+CHAT COMMANDS
+!accessspawn Prints accessspawn boolean 
+!submat (?????)
+!arm deprecated (uses arm method)
+!center deprecated
+!fog (i dont think this is needed)
+!forcepolice (Forces police to spawn on homicide)
+!help (prints all chat commands)
+!homicide_get (Shows player roles on screen)
+!levelend (Ends Current Round)
+!levelnext Roundname (sets next round type)
+!levelhelp Roundname (Is Supposed to print info about rounds but the rounds table has none)
+!levels (prints all level names)
+!levelrandom BOOLEAN (Turns on and off the randomization of levels)
+!nortv BOOLEAN (Toggles map vote)
+!playerclass PLY CLASSNAME (Sets a player to a given playerclass)
+!point POINTNAME (Creates spawnpoint of given type)
+!pointreset POINTNAME (Deletes all points of the given type)
+
+!roll NUM (prints a number between 1 and 20 or the given number
+!radio (Spawns a radio)
+!scared BOOLEAN (Makes NoClip scary??)
+!virus PLY (Zombie virus doesn't work)
+
+	PointPages Do Not Seem To Work At The Moment
+	
+!pointpage NUM (Swaps to a different point variation)
+!pointpages NUM (I dont know)
+!pointpagesrandom BOOLEAN (Uses a random pointpage for spawnpoints)
+!pointsync (Sends points to server, Already should do this by default tho)
 
 FUN 
 
@@ -6,8 +36,6 @@ FUN
 ("jacky_crazy_effect", function(ply, cmd, args)
 EFFECTS: balls, cheese, ravebreak, nope, fart, cluster, revenge*, knockout, spiders, inferno, mines, frags, wtfboom, succ...
 tsarbomba, damnitgarry
-
-COMMANDS
 
 JMOD USEFULL
 
@@ -104,6 +132,10 @@ CreateConVar("hg_usewhilefaking", 0, nil, "Allows player to use interact while r
 CreateConVar("hg_PreCache_Models", "1", {FCVAR_ARCHIVE, FCVAR_REPLICATED}, "Toggles Models Precaching", 0, 1)
 
 CreateConVar("homicide_setmode", "", FCVAR_LUA_SERVER, "")
+
+CreateConVar("hg_usewhilefaking", 0, nil, FCVAR_ARCHIVE, "Allows player to use interact while ragdolled", 0, 1)
+
+CreateConVar("hg_talkwhileuncon", 0, nil, FCVAR_ARCHIVE, "Allows players talk while unconscious", 0, 1)
 
 CLIENT
 

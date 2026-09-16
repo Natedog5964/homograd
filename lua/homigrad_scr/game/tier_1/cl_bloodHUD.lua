@@ -23,14 +23,15 @@ hook.Add("OnScreenSizeChanged", "FixBloodFontRes", BuildScaledFonts)
 hook.Add("InitPostEntity", "FixBloodFontOnJoin", BuildScaledFonts)
 
 hook.Add("HUDPaint", "DrawBloodAsHealth", function()
-
-	if not blHUD:GetBool() then return end
+	local ply = LocalPlayer()
 	
-    local ply = LocalPlayer()
+	if not blHUD:GetBool() then return end
+	if hg_bloodhudoverride then return end
+    
     if not IsValid(ply) or not ply:Alive() then return end
 
     local s = ScrH() / 1080
-    local currentBlood = blood or 5000 
+    local currentBlood = hg_blood or 5000 
     
     local x = 45 * s
     local y = ScrH() - (78 * s)

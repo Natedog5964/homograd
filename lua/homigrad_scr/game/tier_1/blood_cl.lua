@@ -1,7 +1,7 @@
 blood = 5000
 adrenaline = 0
 
-net.Receive("info_blood", function() blood = net.ReadFloat() end)
+net.Receive("info_blood", function() hg_blood = net.ReadFloat() end)
 net.Receive("info_adrenaline", function() adrenaline = net.ReadFloat() end)
 
 --[[

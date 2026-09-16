@@ -359,15 +359,15 @@ COMMANDS.roll = {
 	nil, nil, true
 }
 
-COMMANDS.fullup = {
-	function(ply, args)
-		ply.stamina = 100
-		ply.pain = 0
-		ply.Blood = 5000
-		ply.Bloodlosing = 0
-		ply.dmgimpulse = 0
-	end
-}
+function Fullup (ply, args)
+	ply:SetHealth(150)
+	ply.stamina = 100
+	ply.pain = 0
+	ply.Blood = 5000
+	ply.Bloodlosing = 0
+	ply.dmgimpulse = 0
+end
+
 
 function GM:DoPlayerDeath(ply) end
 
