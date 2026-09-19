@@ -366,6 +366,7 @@ function Fullup (ply, args)
 	ply.Blood = 5000
 	ply.Bloodlosing = 0
 	ply.dmgimpulse = 0
+	ply.o2 = 1
 end
 
 
