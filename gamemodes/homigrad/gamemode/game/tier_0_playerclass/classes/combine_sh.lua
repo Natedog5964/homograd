@@ -134,40 +134,6 @@ function CLASS.Off(self)
     net.Send(self)
 end
 
-local function giveSubClassLoadout(ply, subclass)
-    local config = combine_subclasses[subclass] or combine_subclasses["default"]
-    --ply:StripWeapons()
-    ply:Give("weapon_hands")
-    for _, item in ipairs(config.loadout or {}) do
-        if item.weapon_random_pool then
-            local randWep = item.weapon_random_pool[math.random(#item.weapon_random_pool)]
-            local wep = ply:Give(randWep)
-            if wep and item.ammo_mult then
-                ply:GiveAmmo(wep:GetMaxClip1() * item.ammo_mult, wep:GetPrimaryAmmoType(), true)
-            end
-        elseif item.armor then
-			local armor_color = item.armor_color or armor_color or nil
-			local armor = JMod.EZ_Equip_Armor(ply,item.armor,armor_color)
-			if item.armor_color then
-                armor_color = item.armor_color
-            end
-		else
-            local wep = ply:Give(item.weapon)
-            if IsValid(wep) then
-                if item.ammo_mult then
-                    ply:GiveAmmo(wep:GetMaxClip1() * item.ammo_mult, wep:GetPrimaryAmmoType(), true)
-                end
-                if item.count then
-                    wep.count = item.count
-                end
-                if item.extra_balls then
-                    wep:SetNWInt("Balls", item.extra_balls)
-                end
-            end
-        end
-    end
-end
-
 function CLASS.On(self)
 	if CLIENT then return end
 	
@@ -198,7 +164,7 @@ function CLASS.On(self)
 	
 
 	--tdm.GiveSwep(self,CLASS.main_weapons,8)
-	giveSubClassLoadout(self, sub)
+	giveSubClassLoadout(self, sub, combine_subclasses)
 	
 	self.subClass = nil
 	

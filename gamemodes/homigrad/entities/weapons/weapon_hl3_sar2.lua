@@ -40,10 +40,10 @@ SWEP.TwoHands = true
 SWEP.Effect = "AR2Impact"
 SWEP.Tracer = "AR2Tracer"
 
-SWEP.Secondary.ClipSize = -1
-SWEP.Secondary.DefaultClip = -1
+SWEP.Secondary.ClipSize = 1
+SWEP.Secondary.DefaultClip = 1
 SWEP.Secondary.Automatic = false
-SWEP.Secondary.Ammo = "none"
+SWEP.Secondary.Ammo = "AR2AltFire"
 
 SWEP.Weight = 5
 SWEP.AutoSwitchTo = false
@@ -97,21 +97,17 @@ function SWEP:TertiaryAttack()
 
 local ply = self:GetOwner()
 
-if ply:GetAmmoCount("AR2AltFire") <= 0 then 
+if self.Secondary.ClipSize < 1 then
         self:EmitSound("Weapon_AR2.Empty")
         return 
     end
-	
-	ply:RemoveAmmo(1, "AR2AltFire")
-	
         self:FireBall()
-
 end
 
 function SWEP:FireBall()
     local ply = self:GetOwner()
     if not IsValid(ply) then return end
-	
+	self.Secondary.ClipSize = self.Secondary.ClipSize - 1
     if self.babymode == 1 then
 	self:EmitSound("ambient/creatures/teddy.wav", 75, 130, 1, CHAN_AUTO, 0, 10)
 	else

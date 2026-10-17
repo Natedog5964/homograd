@@ -1,4 +1,4 @@
-blood = 5000
+hg_blood = 5000
 adrenaline = 0
 
 net.Receive("info_blood", function() hg_blood = net.ReadFloat() end)
@@ -20,7 +20,7 @@ local tab = {
 hook.Add("RenderScreenspaceEffects", "hgToyTownEffect", function()
 	if not LocalPlayer():Alive() then return end
 
-	local fraction = math.Clamp(1 - (blood - 3200) / ((5000 - 1400) - 2000), 0, 1)
+	local fraction = math.Clamp(1 - (hg_blood - 3200) / ((5000 - 1400) - 2000), 0, 1)
 	DrawToyTown(fraction * 8, ScrH() * fraction * 1.5)
 	DrawSharpen(5, adrenaline / 5)
 	if fraction <= 0.7 then return end

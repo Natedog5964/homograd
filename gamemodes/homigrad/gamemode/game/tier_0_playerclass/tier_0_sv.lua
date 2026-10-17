@@ -22,6 +22,38 @@ end
 
 util.AddNetworkString("setupclass")
 
+function giveSubClassLoadout(ply, subclass, subclasslist)
+	if not subclasslist then return end
+    local config = subclasslist[subclass] or subclasslist["default"]
+    --ply:StripWeapons()
+    ply:Give("weapon_hands")
+    for _, item in ipairs(config.loadout or {}) do
+        if item.weapon_random_pool then
+            local randWep = item.weapon_random_pool[math.random(#item.weapon_random_pool)]
+            local wep = ply:Give(randWep)
+            if wep and item.ammo_mult then
+                ply:GiveAmmo(wep:GetMaxClip1() * item.ammo_mult, wep:GetPrimaryAmmoType(), true)
+            end
+        elseif item.armor then
+			local armor_color = item.armor_color or armor_color or nil
+			local armor = JMod.EZ_Equip_Armor(ply,item.armor,armor_color)
+			if item.armor_color then
+                armor_color = item.armor_color
+            end
+		else
+            local wep = ply:Give(item.weapon)
+            if IsValid(wep) then
+                if item.ammo_mult then
+                    ply:GiveAmmo(wep:GetMaxClip1() * item.ammo_mult, wep:GetPrimaryAmmoType(), true)
+                end
+                if item.count then
+                    wep.count = item.count
+                end
+            end
+        end
+    end
+end
+
 hook.Add("PlayerInitializeSpawn", "PlayerClass", function(plySend)
 	for _, ply in player.Iterator() do
 		if not ply:GetPlayerClass() then continue end
