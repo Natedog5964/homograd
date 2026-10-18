@@ -1,5 +1,6 @@
 local vecZero = Vector(0, 0, 0)
 -- local vecInf = Vector(1, 1, 1) / 0
+util.AddNetworkString("Homigrad_GibbedBone")
 
 local function removeBone(rag, bone, phys_bone)
 	rag:ManipulateBoneScale(bone, vecZero)
@@ -7,6 +8,14 @@ local function removeBone(rag, bone, phys_bone)
 	-- rag:ManipulateBonePosition(bone, vecInf) -- Thanks Rama (only works on certain graphics cards!)
 
 	if rag.gibRemove[phys_bone] then return end
+
+	-- This is for client side bone hiding
+	if IsValid(rag) then
+        net.Start("Homigrad_GibbedBone")
+            net.WriteEntity(rag)
+            net.WriteInt(bone, 16)
+        net.Broadcast()
+    end
 
 	local phys_obj = rag:GetPhysicsObjectNum(phys_bone)
 	if not IsValid(phys_obj) then return end

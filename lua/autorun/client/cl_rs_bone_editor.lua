@@ -4,6 +4,16 @@ eyeoffset = eyeoffset or 0
 local IsEditorOpen = false
 local editorFrame = nil
 
+net.Receive("Homigrad_GibbedBone", function()
+    local rag = net.ReadEntity()
+    local boneIndex = net.ReadInt(16)
+
+    if IsValid(rag) then
+        rag.gibbedbones = rag.gibbedbones or {}
+        rag.gibbedbones[boneIndex] = true
+    end
+end)
+
 local function GetHomigradTrueModel()
     local ply = LocalPlayer()
     if not IsValid(ply) then return "models/player/kleiner.mdl" end
@@ -21,10 +31,16 @@ local function Homigrad_BoneProcessor(ent)
         for boneName, shouldHide in pairs(hiddenBones) do
             local bIndex = ent:LookupBone(boneName)
             if bIndex and bIndex ~= -1 then
+				if ent.gibbedbones and ent.gibbedbones[bIndex] then
+                    ent:ManipulateBoneScale(bIndex, Vector(0, 0, 0))
+                    continue 
+                end
                 if shouldHide == true then
                     ent:ManipulateBoneScale(bIndex, Vector(0, 0, 0))
                 else
-                    ent:ManipulateBoneScale(bIndex, Vector(1, 1, 1))
+                    if currentScale ~= Vector(0, 0, 0) then
+                        ent:ManipulateBoneScale(bIndex, Vector(1, 1, 1))
+					end
                 end
             end
         end
@@ -77,12 +93,6 @@ function LoadConfigForModel(modelPath)
     end
     
     -- Default targets if no user JSON profile exists yet
-    hiddenBones = {
-        ["ValveBiped.Bip01_Head1"] = true,
-        ["bip_head"] = true,
-        ["head"] = true,
-        ["Head"] = true
-    }
 	eyeoffset = 0
 end
 
