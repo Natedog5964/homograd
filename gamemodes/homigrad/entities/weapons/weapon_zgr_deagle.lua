@@ -45,8 +45,8 @@ SWEP.SlotPos = 1
 SWEP.DrawAmmo = true
 SWEP.DrawCrosshair = false
 
-SWEP.ViewModel = "models/pwb2/weapons/w_deserteagle.mdl"
-SWEP.WorldModel = "models/pwb2/weapons/w_deserteagle.mdl"
+SWEP.ViewModel = "models/pwb2/deserteagle/w_deserteagle.mdl"
+SWEP.WorldModel = "models/pwb2/deserteagle/w_deserteagle.mdl"
 
 SWEP.vbwPos = Vector(5,0,-2)
 

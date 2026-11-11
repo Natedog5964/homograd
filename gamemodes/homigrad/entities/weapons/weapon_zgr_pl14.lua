@@ -19,7 +19,7 @@ SWEP.Primary.Cone = 0
 SWEP.Primary.Damage = 25
 SWEP.RubberBullets = false
 SWEP.Primary.Spread = 0
-SWEP.Primary.Sound = "zcitysnd/sound/weapons/firearms/hndg_mkiii/mkiii_fire_01.wav"
+SWEP.Primary.Sound = "weapons/pl14/mkiii_fire_01.wav"
 SWEP.Primary.SoundFar = "snd_jack_hmcd_smp_far.wav"
 SWEP.Primary.Force = 0.1
 SWEP.ReloadTime = 2
@@ -45,8 +45,8 @@ SWEP.SlotPos = 1
 SWEP.DrawAmmo = true
 SWEP.DrawCrosshair = false
 
-SWEP.ViewModel = "models/pwb2/weapons/w_pl14.mdl"
-SWEP.WorldModel	= "models/pwb2/weapons/w_pl14.mdl"
+SWEP.ViewModel = "models/pwb2/pl14/w_pl14.mdl"
+SWEP.WorldModel	= "models/pwb2/pl14/w_pl14.mdl"
 
 SWEP.vbwPos = Vector(8,0,-6)
 SWEP.addPos = Vector(-0.9,-1.5,-0.7)

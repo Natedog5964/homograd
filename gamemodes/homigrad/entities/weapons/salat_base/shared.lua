@@ -27,9 +27,12 @@ SWEP.Primary.Automatic = true
 SWEP.Primary.Ammo = "pistol"
 SWEP.Primary.Cone = 0										-- Bullet Spread
 SWEP.Primary.Damage = 100
+
 SWEP.Primary.Spread = 0										-- Unsure this Does anything								
 SWEP.Primary.Sound = "weapons/fiveseven/fiveseven-1.wav"	-- Near sound
 SWEP.Primary.SoundFar = "m9/m9_dist.wav"					-- Far sound
+SWEP.Primary.SoundLevel = 80
+SWEP.Primary.SoundPitch = {100, 120}
 SWEP.Primary.Force = 0										-- How much force your bullets have
 
 SWEP.Secondary.ClipSize = -1								
@@ -345,7 +348,9 @@ function SWEP:PrimaryAttack()
 
 	if SERVER then
 		local ent = IsValid(ply.FakeRagdoll) and ply.FakeRagdoll or ply
-		ent:EmitSound(self.Primary.Sound, 80, math.random(100, 120), 1, CHAN_WEAPON)
+		local pitch = self.Primary.SoundPitch
+
+		ent:EmitSound(self.Primary.Sound, self.Primary.SoundLevel, math.random(pitch[1], pitch[2]), 1, CHAN_WEAPON)
 	end
 
 	self:FireBullet()
@@ -482,6 +487,12 @@ function SWEP:GetTrace(nomodify)
 	return pos, ang
 end
 
+function UsesHGDamage(ent)
+	if not IsValid(ent) then return true end
+
+	return ent:IsPlayer() or ent:IsRagdoll() or ent.IsArmor or ent:GetClass() == "npc_bullseye"
+end
+
 function SWEP:FireBullet()
 	if self:Clip1() <= 0 then return end
 	if timer.Exists("reload" .. self:EntIndex()) then return nil end
@@ -528,6 +539,8 @@ function SWEP:FireBullet()
 			local k = math.max(1 - tr.StartPos:Distance(tr.HitPos) / 750, 0)
 			dmgInfo:ScaleDamage(k)
 		end
+
+		if not UsesHGDamage(tr.Entity) then dmgInfo:ScaleDamage(0.25) end
 
 		local effectdata = EffectData()
 		effectdata:SetEntity(tr.Entity)

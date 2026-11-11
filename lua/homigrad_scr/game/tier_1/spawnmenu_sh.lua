@@ -3,17 +3,6 @@ local validUserGroup = {
 }
 
 if SERVER then
-	COMMANDS.accessspawn = {
-		function(ply, args)
-			local arg = tobool(args[1])
-			if not arg then arg = false end
-
-			SetGlobalBool("AccessSpawn", arg)
-
-			PrintMessage(3, "Spawn Menu Boolean: " .. tostring(GetGlobalBool("AccessSpawn")))
-		end
-	}
-
 	local function CanUseSpawnMenu(ply, class)
 		local func = TableRound().CanUseSpawnMenu
 		func = func and func(ply, class)
@@ -55,6 +44,10 @@ else
 		else return false end
 	end
 
-	hook.Add("ContextMenuOpen", "hide_spawnmenu", CanUseSpawnMenu)
+	hook.Add("ContextMenuOpen", "hide_spawnmenu", function()
+		if hg.CanUseAdminMenu() then return true end
+
+		return CanUseSpawnMenu()
+	end)
 	hook.Add("SpawnMenuOpen", "hide_spawnmenu", CanUseSpawnMenu)
 end
