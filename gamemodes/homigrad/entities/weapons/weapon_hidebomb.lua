@@ -40,7 +40,6 @@ SWEP.dwsPos = Vector(20, 20, 15)
 SWEP.dwsItemPos = Vector(0, 0, 5)
 
 if SERVER then
-	-- print(roundTime - (roundTime - 15) + roundTimeStart - CurTime())
 	local BigFireModels = {
 		["models/props_c17/oildrum001_explosive.mdl"] = true,
 		["models/props_c17/canister_propane01a.mdl"] = true
@@ -73,7 +72,7 @@ if SERVER then
 				sound.Play("explosions/doi_ty_01_close.wav", SelfPos, 140, math.random(80, 110))
 			end
 
-			if util.GetSurfaceIndex(ent:GetBoneSurfaceProp(0)) == 3 or util.GetSurfaceIndex(ent:GetBoneSurfaceProp(0)) == 66 then JMod.FragSplosion(ent, SelfPos + Vector(0, 0, 20), 1024, 50, 3500, ent.owner or game.GetWorld()) end
+			if util.GetSurfaceIndex(ent:GetBoneSurfaceProp(0)) == 3 or util.GetSurfaceIndex(ent:GetBoneSurfaceProp(0)) == 66 then hg.FragSplosion(ent, SelfPos + Vector(0, 0, 20), 1024, 50, 3500, ent.owner or game.GetWorld()) end
 
 			timer.Simple(.1, function()
 				for _ = 1, 5 do
@@ -82,52 +81,17 @@ if SERVER then
 				end
 			end)
 
-			JMod.WreckBuildings(ent, SelfPos, PowerMult)
-			JMod.BlastDoors(ent, SelfPos, PowerMult)
+			hg.WreckBuildings(ent, SelfPos, PowerMult)
+			hg.BlastDoors(ent, SelfPos, PowerMult)
 
 			if BigFireModels[Model] then
-				for _ = 1, 25 do
-					local FireVec = (VectorRand() * .3 + Vector(0, 0, .3)):GetNormalized()
-					FireVec.z = FireVec.z / 2
-
-					local Flame = ents.Create("ent_jack_gmod_eznapalm")
-					Flame:SetPos(SelfPos + Vector(0, 0, 50))
-					Flame:SetAngles(FireVec:Angle())
-					Flame:SetOwner(game.GetWorld())
-
-					JMod.SetOwner(Flame, game.GetWorld())
-
-					Flame.SpeedMul = 0.25
-					Flame.Creator = game.GetWorld()
-					Flame.HighVisuals = true
-
-					Flame:Spawn()
-					Flame:Activate()
-				end
+				hg.SpawnFlames(SelfPos + Vector(0, 0, 50), 25, 0.25)
 			elseif FireModels[Model] then
-				for _ = 1, 7 do
-					local FireVec = (VectorRand() * .3 + Vector(0, 0, .3)):GetNormalized()
-					FireVec.z = FireVec.z / 2
-
-					local Flame = ents.Create("ent_jack_gmod_eznapalm")
-					Flame:SetPos(SelfPos + Vector(0, 0, 50))
-					Flame:SetAngles(FireVec:Angle())
-					Flame:SetOwner(game.GetWorld())
-
-					JMod.SetOwner(Flame, game.GetWorld())
-
-					Flame.SpeedMul = 0.25
-					Flame.Creator = game.GetWorld()
-					Flame.HighVisuals = true
-
-					Flame:Spawn()
-					Flame:Activate()
-				end
+				hg.SpawnFlames(SelfPos + Vector(0, 0, 50), 7, 0.25)
 			end
 
 			if IsValid(ent) then
 				ent:RemoveCallOnRemove("hg_hidebombremove")
-				-- if RagdollOwner(ent) then RagdollOwner(ent):KillSilent() end
 				ent:Remove()
 			end
 
@@ -136,7 +100,6 @@ if SERVER then
 				local Infl, Att = (IsValid(ent) and ent) or ZaWarudo, (IsValid(ent) and IsValid(ent.owner) and ent.owner) or (IsValid(ent) and ent) or ZaWarudo
 
 				util.BlastDamage(Infl, Att, SelfPos, 60 * PowerMult, 240 * PowerMult)
-				-- util.BlastDamage(Infl, Att, SelfPos, 20 * PowerMult, 1000 * PowerMult)
 			end)
 		end)
 
@@ -145,10 +108,7 @@ if SERVER then
 
 	function SWEP:Initialize()
 		self:SetHoldType("normal")
-		-- self:SetNWBool("hasbomb", false)
 	end
-
-	-- local tbl = {}
 
 	function SWEP:PrimaryAttack()
 		local timePassed = roundTime - (roundTime - 22) + roundTimeStart - CurTime()
@@ -197,21 +157,18 @@ if SERVER then
 	end
 
 	function SWEP:SecondaryAttack()
-		-- local bomb = tbl[self:GetOwner()]
 		if not IsValid(self:GetOwner().bomb) then return end
 
 		Bomb(self:GetOwner().bomb)
 
 		self:GetOwner().bomb = nil
 		self:Remove()
-		-- tbl[self:GetOwner()] = nil
 	end
 else
 	function SWEP:DrawWorldModel()
 		local owner = self:GetOwner()
 		if not IsValid(owner) then return self:DrawModel() end
 
-		-- if self:GetNWBool("hasbomb") then return end
 		self.mdl = self.mdl or false
 
 		if not IsValid(self.mdl) then

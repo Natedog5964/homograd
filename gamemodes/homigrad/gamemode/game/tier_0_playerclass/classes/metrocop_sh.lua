@@ -131,7 +131,7 @@ function CLASS.PlayerDeath(self)
 end
 
 if CLIENT then
-    local cmb_mat = Material("sprites/mat_jack_helmoverlay_r")
+    local cmb_mat = Material("sprites/combine_overlays/mat_jack_helmoverlay_r")
     hook.Add("PostDrawHUD","Metrocop_helmet",function()
         local lply = LocalPlayer()
         if lply:Alive() and lply.PlayerClassName == "metrocop" then

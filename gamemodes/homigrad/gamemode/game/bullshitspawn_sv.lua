@@ -7,10 +7,11 @@ for _, mdl in ipairs(BOXES) do
 end
 
 local weaponscommon = {"weapon_binokle", "ent_drop_flashlight", "weapon_knife", "weapon_pipe", "splint", "med_band_small", "med_band_big", "weapon_zgr_baguette"}
-local weaponsuncommon = {"weapon_hg_shovel", "weapon_hg_fubar", "weapon_bat", "weapon_hg_metalbat", "weapon_hg_hatchet", "*ammo*", "ent_jack_gmod_ezarmor_respirator", "ent_jack_gmod_ezarmor_lhead", "medkit"}
-local weaponsrare = {"weapon_tomahawk", "weapon_hg_molotov", "*ammo*", "weapon_hg_sledgehammer", "weapon_hammer", "weapon_hg_fireaxe", "ent_jack_gmod_ezarmor_gasmask", "ent_jack_gmod_ezarmor_mltorso", "weapon_zgr_flintlock"}
-local weaponsveryrare = {"weapon_m4super", "weapon_beretta", "ent_jack_gmod_ezarmor_mtorso", "ent_jack_gmod_ezarmor_mhead", "weapon_zgr_musket"}
-local weaponslegendary = {"weapon_xm1014", "weapon_ar15", "weapon_civil_famas", "weapon_glock", "weapon_remington870", "weapon_barret", "weapon_fal", "weapon_zgr_ck98", "weapon_zgr_cmosin", "weapon_zgr_tnt"}
+local weaponsuncommon = {"weapon_hg_shovel", "weapon_hg_fubar", "weapon_bat", "weapon_hg_metalbat", "weapon_hg_hatchet", "*ammo*", "ent_hg_armor_respirator", "ent_hg_armor_lhead", "medkit"}
+local weaponsrare = {"weapon_tomahawk", "weapon_hg_molotov", "*ammo*", "weapon_hg_sledgehammer", "weapon_hammer", "weapon_hg_fireaxe", "ent_hg_armor_gasmask", "ent_hg_armor_mltorso", "weapon_zgr_flintlock"}
+local weaponsveryrare = {"weapon_m4super", "weapon_beretta", "ent_hg_armor_mtorso", "ent_hg_armor_mhead"}
+local weaponslegendary = {"weapon_xm1014", "weapon_ar15", "weapon_civil_famas", "weapon_glock", "weapon_remington870", "weapon_barret", "weapon_fal", "weapon_zgr_ck98", "weapon_zgr_cmosin"}
+
 local ammos = {"ent_ammo_.44magnum", "ent_ammo_127x99mm", "ent_ammo_12/70beanbag", "ent_ammo_12/70gauge", "ent_ammo_46x30mm", "ent_ammo_545x39mm", "ent_ammo_556x45mm", "ent_ammo_57x28mm", "ent_ammo_762x39mm", "ent_ammo_9x19mm", "ent_ammo_9x39mm"}
 
 local function randomLoot()
@@ -126,10 +127,6 @@ local function cacheSpawns()
 
 	local tbladd = MakeRandomSpawns(spawns, 0, 500, {})
 	table.Add(spawns, tbladd)
-end
-
-function hg.CacheRandomSpawns()
-	cacheSpawns()
 end
 
 function hg.RandomSpawns()

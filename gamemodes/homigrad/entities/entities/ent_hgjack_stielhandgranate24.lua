@@ -1,8 +1,8 @@
 if SERVER then AddCSLuaFile() end
-ENT.Base = "ent_hgjack_gmod_grenadebase"
-ENT.Author = "Jackarunda, TheOnly8Z"
-ENT.PrintName = "EZHG stielhandgranate24"
-ENT.Category = "JMod - ZGrad"
+ENT.Base = "ent_hg_grenade_base"
+ENT.Author = "Zgrad"
+ENT.PrintName = "HG stielhandgranate24"
+ENT.Category = "Homograd"
 ENT.Spawnable = true
 ENT.JModPreferredCarryAngles = Angle(0, -140, 0)
 ENT.Model = "models/zgrad/stielhandgranate24/stielhandgranate24.mdl"
@@ -11,7 +11,7 @@ ENT.SpoonScale = 2
 if SERVER then
     function ENT:Arm()
         self:SetBodygroup(2, 1)
-        self:SetState(JMod.EZ_STATE_ARMED)
+        self:SetState(self.STATE_ARMED)
         self:SpoonEffect()
 
         local time = math.random(3.2,4.2)
@@ -32,7 +32,7 @@ if SERVER then
         if self.Exploded then return end
         self.Exploded = true
         local SelfPos = self:GetPos()
-        JMod.Sploom(self:GetOwner(), self:GetPos(), math.random(10, 20))
+        hg.Sploom(self:GetOwner(), self:GetPos(), math.random(10, 20))
         self:EmitSound("explosions/cache_explode.wav", 90, 100)
         local plooie = EffectData()
         plooie:SetOrigin(SelfPos)
@@ -45,7 +45,7 @@ if SERVER then
         local OnGround = util.QuickTrace(SelfPos + Vector(0, 0, 5), Vector(0, 0, -15), {self}).Hit
 
         local Spred = Vector(0, 0, 0)
-        JMod.FragSplosion(self, SelfPos + Vector(0, 0, 20), 1200, 400, 1000, self:GetOwner() or game.GetWorld())
+        hg.FragSplosion(self, SelfPos + Vector(0, 0, 20), 1200, 400, 1000, self:GetOwner() or game.GetWorld())
         self:Remove()
     end
 elseif CLIENT then

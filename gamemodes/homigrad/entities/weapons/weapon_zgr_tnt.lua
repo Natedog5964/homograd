@@ -1,3 +1,4 @@
+--[[ THIS DOES NOT FUCTION RN
 SWEP.Base = "weapon_hg_granade_base"
 
 SWEP.PrintName = "TNT"
@@ -52,3 +53,4 @@ if CLIENT then
         WorldModel:DrawModel()
     end
 end
+--]]

@@ -28,11 +28,6 @@ It features a somewhat realistic health and movement system and offers several s
 I recommend a tickrate from **99** to **128** for better physics, but people reported that **66** works too.\
 On a dedicated server, please use `+tickrate number`. On the client (when you host a server from the game itself), tickrate is dependent on the fps_max concommand.
 
-## TODO
-
-- [ ] Move Homigrad's commands to ULX (i like ulx).
-- [ ] Find and fix existing bugs (there are many to address).
-
 ## Known Bugs
 
 - [ ] Listed as `FIXME` and `NOTE` in comments.
@@ -57,7 +52,8 @@ Yes! Just like the original repo, this project is under the MIT License, so you�
 
 ## Credits
 
-- **Sadsalat, Useless, Mr. Point**: For creating the original Homigrad and making it open source. The original repository is available [here](https://github.com/sadsalat/Orignal-Homigrad).
+- **Sadsalat, Useless, Mr. Point**: For creating the original Homigrad and making it open-source. The original repository is available [here](https://github.com/sadsalat/Orignal-Homigrad).
 - **Harrison's Servers**: For open-sourcing their version (I wasted all of my NY holidays messing with workshop version (╯‵□′)╯︵┻━┻).
+- \@mugii.zip on Discord: Idea for the armor attachment not lining up on ragdoll fix.
 - **ChatGPT**: Rewriting my shitty README.
-- **My friend DeXToR**: Playtesting big time and Ukrainian translation.
+- **My friend DeXToR**: Playtesting with me and doing Ukrainian translation.

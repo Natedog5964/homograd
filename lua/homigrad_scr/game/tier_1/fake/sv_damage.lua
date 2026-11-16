@@ -110,9 +110,9 @@ hook.Add("EntityTakeDamage", "ragdamage", function(ent, dmginfo)
 
 	if ent:GetClass() == "npc_bullseye" then
 		local rag = ent.rag
-		rag:TakeDamageInfo(dmginfo)
+		if IsValid(rag) and dmginfo:GetAttacker() ~= ent.ply then rag:TakeDamageInfo(dmginfo) end
 
-		return false
+		return true
 	end
 
 	if ent:IsPlayer() and IsValid(ent.FakeRagdoll) then return end
@@ -151,14 +151,6 @@ hook.Add("EntityTakeDamage", "ragdamage", function(ent, dmginfo)
 	end
 
 	local physics_bone = GetPhysicsBoneDamageInfo(ent, dmginfo)
-	--[[
-	if not physics_bone then
-		local att = dmginfo:GetAttacker()
-		if IsValid(att) and att:IsPlayer() then att:ChatPrint("didn't registered.") end
-		ply:ChatPrint("didn't registered.")
-		print("didn't registered.")
-		return -- impossible
-	end --]]
 
 	local hitgroup
 
@@ -170,7 +162,6 @@ hook.Add("EntityTakeDamage", "ragdamage", function(ent, dmginfo)
 
 	local lastdmg = DamageInfo()
 	lastdmg:SetAttacker(dmginfo:GetAttacker())
-	-- lastdmg:SetInflictor(dmginfo:GetInflictor())
 	lastdmg:SetDamage(dmginfo:GetDamage() * (not rag and 1 / (mul or 1) or 1))
 	lastdmg:SetDamageType(dmginfo:GetDamageType())
 	lastdmg:SetDamagePosition(dmginfo:GetDamagePosition())
@@ -183,7 +174,6 @@ hook.Add("EntityTakeDamage", "ragdamage", function(ent, dmginfo)
 	local entAtt = dmginfo:GetAttacker()
 	local att = entAtt:IsPlayer() and entAtt:Alive() and entAtt or entAtt:GetClass() == "wep" and entAtt:GetOwner() -- or RagdollOwner(entAtt) or IsValid(att) and att
 	att = att ~= ply and att
-	-- att = ply.LastAttacker -- Made it so last attacker can only be a player
 
 	if IsValid(att) then dmginfo:SetAttacker(att) end
 
@@ -193,7 +183,7 @@ hook.Add("EntityTakeDamage", "ragdamage", function(ent, dmginfo)
 
 	dmginfo:ScaleDamage(0.01)
 
-	local armors, _ = JMod.LocationalDmgHandling(ply, hitgroup, dmginfo)
+	local armors = hg.ArmorDamage(ply, hitgroup, dmginfo)
 
 	dmginfo:ScaleDamage(100)
 
@@ -218,7 +208,6 @@ hook.Add("EntityTakeDamage", "ragdamage", function(ent, dmginfo)
 
 		if dur >= 0.25 then
 			armorDur = armorData.dur / 100 * dur
-			-- dur = math.max(dur - 0.5, 0)
 			armorMul = math.max(1 - armorDur, 0.25)
 
 			break
@@ -255,14 +244,6 @@ local function velocityDamage(ent, data)
 
 	local dmg = speed / 5350 * data.DeltaTime
 	dmg = dmg * math.abs(data.OurOldVelocity:GetNormalized():Dot(data.HitNormal))
-	-- if dmg * 20 * 2 < 0.2 then return end
-
-	--[[
-	local bone
-	for i = 0, ent:GetPhysicsObjectCount() do
-		local phys = ent:GetPhysicsObjectNum(i)
-		if phys == data.PhysObject then bone = i end
-	end --]]
 
 	local dmgInfo = DamageInfo()
 	dmgInfo:SetDamage(dmg * 50)
@@ -274,7 +255,6 @@ local function velocityDamage(ent, data)
 	ent.dodamage = true
 
 	ent:TakeDamageInfo(dmgInfo)
-	-- ent.dodamage = nil
 end
 
 hook.Add("Ragdoll Collide", "hgOrgansDamage", function(ragdoll, data)
@@ -328,7 +308,6 @@ local deathreasons = {
 
 hook.Add("Player Death", "plymessage", function(ply, hitgroup, dmginfo)
 	local att = ply.LastAttacker
-	-- if not IsValid(att) then return end
 
 	local boneName = bonenames[ply.LastHitBoneName]
 	local reason = ply.KillReason

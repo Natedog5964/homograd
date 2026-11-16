@@ -78,27 +78,6 @@ local validUserGroup = {
 	user = false,
 }
 
-net.Receive("round_active", function(len)
-	roundActive = net.ReadBool()
-	roundTimeStart = net.ReadFloat()
-	roundTime = net.ReadFloat()
-end)
-
-net.Receive("hg_sendchat", function(len)
-	local ply = LocalPlayer()
-	local msg = net.ReadTable()
-	if not msg then return end
-
-	local tbl = {}
-	for _, v in ipairs(msg) do
-		tbl[#tbl + 1] = string.StartsWith(v, "#") and language.GetPhrase(v) or v
-	end
-
-	if IsValid(ply) then
-		ply:ChatPrint(table.concat(tbl))
-	end
-end)
-
 net.Receive("hg_sendchat_simple", function(len)
 	local ply = LocalPlayer()
 	local msg = net.ReadString()
@@ -393,12 +372,9 @@ local function ToggleMenu(toggle)
 		plyMenu:MakePopup()
 		plyMenu:SetKeyboardInputEnabled(false)
 
-		local armorMenu = plyMenu:AddOption("#hg.cmenu.armor", function()
-			LocalPlayer():ConCommand("jmod_ez_inv")
-			surface.PlaySound("UI/buttonclickrelease.wav")
-		end)
-
+		local armorSub, armorMenu = plyMenu:AddSubMenu("#hg.cmenu.armor")
 		armorMenu:SetIcon("icon16/shield.png")
+		hg.FillArmorMenu(armorSub)
 
 		local ammoMenu = plyMenu:AddOption("#hg.cmenu.ammo", function()
 			LocalPlayer():ConCommand("hg_ammomenu")
@@ -434,7 +410,6 @@ local function ToggleMenu(toggle)
 			if LocalPlayer():GetInfo("hg_usecustommodel") == "true" then
 				local plyModelMenu = plyMenu:AddOption("#hg.cmenu.rmodel", function()
 					LocalPlayer():ChatPrint("<clr:green>Success!<clr:white> Your player model has been reverted to a regular citizen model, and will be applied next round.")
-					-- RunConsoleCommand("cl_playermodel", "none")
 					RunConsoleCommand("hg_usecustommodel", "false")
 					surface.PlaySound("UI/buttonclickrelease.wav")
 				end)
@@ -443,11 +418,9 @@ local function ToggleMenu(toggle)
 			end
 		end
 
-		local ezArmor = LocalPlayer().EZarmor
-
-		if JMod.GetItemInSlot(ezArmor, "eyes") then
+		if hg.GetArmorInSlot(LocalPlayer(), "eyes") then
 			plyMenu:AddOption("#hg.cmenu.head", function()
-				LocalPlayer():ConCommand("jmod_ez_toggleeyes")
+				LocalPlayer():ConCommand("hg_armor_toggleeyes")
 			end)
 		end
 	else
@@ -503,9 +476,23 @@ hook.Add("HUDShouldDraw", "HideHUD_ammo", function(name)
 	if name == "CHudAmmo" then return false end
 end)
 
-net.Receive("remove_jmod_effects", function(len)
-	LocalPlayer().EZvisionBlur = 0
-	LocalPlayer().EZflashbanged = 0
+net.Receive("hg_reset_screen_effects", function()
+	LocalPlayer().hgFlashbanged = nil
+end)
+
+hook.Add("RenderScreenspaceEffects", "hg_flashbang", function()
+	local ply = LocalPlayer()
+	local flash = ply.hgFlashbanged
+	if not flash then return end
+
+	if ply:Alive() then
+		DrawMotionBlur(.001, math.Clamp(flash / 20, 0, 1), .01)
+		flash = flash - 7 * FrameTime()
+	else
+		flash = 0
+	end
+
+	ply.hgFlashbanged = flash > 0 and flash or nil
 end)
 
 local meta = FindMetaTable("Player")

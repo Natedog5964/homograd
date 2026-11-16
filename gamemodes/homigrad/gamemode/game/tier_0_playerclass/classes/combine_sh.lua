@@ -163,11 +163,10 @@ function CLASS.On(self)
 	
 	
 
-	--tdm.GiveSwep(self,CLASS.main_weapons,8)
 	giveSubClassLoadout(self, sub, combine_subclasses)
-	
+	self:Give("weapon_hands")
 	self.subClass = nil
-	
+
 	self.isCombine = true
 	self.cantUsePepper = true
 
@@ -215,7 +214,6 @@ end
 function CLASS.PlayerDeath(self)
 	sound.Play(Sound("npc/overwatch/radiovoice/die" .. math.random(1, 3) .. ".wav"), self:GetPos())
 
-	--self:EmitSound("npc/combine_soldier/die" .. math.random(1,3) .. ".wav")
 	for _, ply in RandomPairs(getList(self)) do
 		ply:EmitSound(Sound("npc/combine_soldier/vo/ripcordripcord.wav"))
 
@@ -415,7 +413,7 @@ if CLIENT then
 	
     hook.Add("RenderScreenspaceEffects","Combine_helmet",function()
 		local is_red = (role == "shotgunner" or role == "elite")
-		local cmb_mat = Material("sprites/mat_jack_helmoverlay_r")
+		local cmb_mat = Material("sprites/combine_overlays/mat_jack_helmoverlay_r")
         local lply = LocalPlayer()
         if lply:Alive() and lply.PlayerClassName == "combine" then
 		if is_red then

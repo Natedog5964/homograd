@@ -19,6 +19,12 @@ end
 
 ---
 if SERVER then
+
+	local function LinCh(num, low, high)
+	-- Linear Chance
+		return num >= (low + (high - low) * math.Rand(0, 1))
+	end
+	
     function ENT:SpawnFunction(ply, tr)
         local SpawnPos = tr.HitPos + tr.HitNormal * 15
         local ent = ents.Create(self.ClassName)
@@ -54,14 +60,14 @@ if SERVER then
         end )
 
         self.Fuze = 20
-        self:SetState(JMod.EZ_STATE_OFF)
+        self:SetState(self.STATE_OFF)
     end
 
     function ENT:TriggerInput(iname, value)
         if (iname == "Detonate") and (value ~= 0) then
             self:Detonate()
         elseif iname == "Arm" and value > 0 then
-            self:SetState(JMod.EZ_STATE_ARMED)
+            self:SetState(self.STATE_ARMED)
         end
     end
 
@@ -81,18 +87,18 @@ if SERVER then
             self:Arm()
         end
 
-        if JMod.LinCh(Dmg, 30, 80) then
+        if LinCh(Dmg, 30, 80) then
             self:Detonate()
         end
     end
 
     function ENT:Arm()
-        if self:GetState() == JMod.EZ_STATE_ARMED then return end
+        if self:GetState() == self.STATE_ARMED then return end
         self:EmitSound("snds_jack_gmod/ignite.wav", 60, 100)
 
         timer.Simple(.5, function()
             if IsValid(self) then
-                self:SetState(JMod.EZ_STATE_ARMED)
+                self:SetState(self.STATE_ARMED)
             end
         end)
     end
@@ -106,7 +112,7 @@ if SERVER then
             if State < 0 then return end
             local Alt = Dude:KeyDown(IN_ALT1)
 
-            if State == JMod.EZ_STATE_OFF and Alt then
+            if State == self.STATE_OFF and Alt then
                 self:Arm()
             end
 
@@ -169,7 +175,7 @@ if SERVER then
         local Time = CurTime()
         local state = self:GetState()
 
-        if state == JMod.EZ_STATE_ARMED then
+        if state == self.STATE_ARMED then
             local Fsh = EffectData()
             Fsh:SetOrigin(self:GetPos() + self:GetForward() * 18 - self:GetRight() * 5)
             Fsh:SetScale(1)

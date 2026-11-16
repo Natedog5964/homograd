@@ -121,9 +121,6 @@ function tdm.StartRoundSV()
 	tdm.SpawnCommand(team.GetPlayers(2), spawnsCT)
 
 	tdm.CenterInit()
-
-	bahmut.SelectRandomPlayers(team.GetPlayers(1), 2, bahmut.GiveAidPhone)
-	bahmut.SelectRandomPlayers(team.GetPlayers(2), 2, bahmut.GiveAidPhone)
 end
 
 function tdm.GetCountAlive(list, func)
@@ -221,8 +218,6 @@ function tdm.PlayerSpawn2(ply, teamID)
 		if ply:Team() == 1 then ply:Give("weapon_hg_f1")
 		else ply:Give("weapon_hg_rgd5") end
 	end
-	-- local r = math.random(1, 3)
-	-- ply:Give(r == 1 and "food_fishcan" or r == 2 and "food_spongebob_home" or r == 3 and "food_lays")
 
 	if ply:IsUserGroup("sponsor") or ply:IsUserGroup("supporterplus") or ply:IsAdmin() then
 		if math.random(1, 5) == 5 then ply:Give("weapon_gear_bloxycola") end
@@ -232,8 +227,8 @@ function tdm.PlayerSpawn2(ply, teamID)
 	end
 
 	local r = math.random(1, 2)
-	JMod.EZ_Equip_Armor(ply, "Medium-Helmet", color)
-	JMod.EZ_Equip_Armor(ply, (r == 1 and "Medium-Vest") or "Light-Vest", color)
+	hg.EquipArmor(ply, "Medium-Helmet", color)
+	hg.EquipArmor(ply, (r == 1 and "Medium-Vest") or "Light-Vest", color)
 end
 
 function tdm.PlayerInitialSpawn(ply)

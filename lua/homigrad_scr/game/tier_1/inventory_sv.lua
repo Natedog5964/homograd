@@ -51,7 +51,7 @@ hook.Add("Player Think", "Looting", function(ply)
 			ply:EmitSound("npc/combine_soldier/gear" .. math.random(1, 6) .. ".wav", 50, math.random(95, 105))
 		end
 
-		if IsValid(hitEnt) and hitEnt.IsJModArmor then hitEnt = hitEnt.Owner end
+		if IsValid(hitEnt) and hitEnt.IsHGArmor then hitEnt = hitEnt.Owner end
 		if not IsValid(hitEnt) then return end
 		if hitEnt:IsPlayer() and hitEnt:Alive() and not IsValid(hitEnt.FakeRagdoll) then return end
 
@@ -188,7 +188,6 @@ net.Receive("ply_take_item", function(len, ply)
 
 		weapon:SetRenderMode(RENDERMODE_NORMAL)
 		weapon:DrawShadow(true)
-		-- weapon:RemoveSolidFlags(FSOLID_NOT_SOLID)
 		weapon:SetMaterial("")
 
 		lootInfo.Weapons[wep] = nil

@@ -47,7 +47,6 @@ else
 		local Tr = util.TraceLine(t)
 
 		if not self:GetFists() then
-			-- local Tr = util.QuickTrace(ply:GetAttachment(ply:LookupAttachment("eyes")).Pos, self:GetOwner():GetAimVector() * self.ReachDistance, {self:GetOwner()})
 			if Tr.Hit then
 				if self:CanPickup(Tr.Entity) then
 					local Size = math.max(1 - Tr.Fraction, 0.25)
@@ -87,7 +86,7 @@ else
 
 					if Tr.Entity:IsPlayer() then
 						col = Tr.Entity:GetPlayerColor():ToColor()
-					elseif Tr.Entity.GetPlayerColor ~= nil then
+					elseif Tr.Entity.playerColor then
 						col = Tr.Entity.playerColor:ToColor()
 					else
 						col = Color(255, 255, 255, 255)
@@ -100,7 +99,6 @@ else
 				end
 			end
 		else
-			-- local Tr = util.QuickTrace(ply:GetAttachment(ply:LookupAttachment("eyes")).Pos, self:GetOwner():GetAimVector() * self.ReachDistance, {self:GetOwner()})
 			if Tr.Hit then
 				local Size = math.max(1 - Tr.Fraction, 0.25)
 
@@ -115,7 +113,7 @@ else
 
 				if Tr.Entity:IsPlayer() then
 					col = Tr.Entity:GetPlayerColor():ToColor()
-				elseif Tr.Entity.GetPlayerColor ~= nil then
+				elseif Tr.Entity.playerColor then
 					col = Tr.Entity.playerColor:ToColor()
 				else
 					col = Color(255, 255, 255, 255)
@@ -130,7 +128,7 @@ else
 	end
 end
 
-function JMod.WhomILookinAt(ply, cone, dist)
+local function whomILookinAt(ply, cone, dist)
 	local CreatureTr, ObjTr, OtherTr = nil, nil, nil
 
 	for _ = 1, 150 * cone do
@@ -292,8 +290,6 @@ function SWEP:SecondaryAttack()
 			if Dist < self.ReachDistance then
 				sound.Play("Flesh.ImpactSoft", self:GetOwner():GetShootPos(), 65, math.random(90, 110))
 
-				-- self:GetOwner():SetVelocity(self:GetOwner():GetAimVector() * 20) -- Why exactly?
-
 				tr.Entity:SetVelocity(self:GetOwner():GetAimVector() * 50)
 
 				self:SetNextSecondaryFire(CurTime() + .5)
@@ -365,10 +361,6 @@ function SWEP:ApplyForce()
 						ply.o2 = math.min(ply.o2 + 0.5, 1)
 						ply.Blood = math.min(ply.Blood + 8, 5000) -- Stupid shit
 						ply.pain = math.max(ply.pain - 3, 0)
-						-- self:GetOwner():ChatPrint(ply.pain)
-						-- self:GetOwner():ChatPrint(ply.Blood)
-						-- self:GetOwner():ChatPrint(ply.o2)
-						-- self.CarryEnt:EmitSound("physics/body/body_medium_impact_soft" .. tostring(math.random(7)) .. ".wav")
 
 						phys:ApplyForceCenter(-vector_up * 15000)
 					end
@@ -389,8 +381,6 @@ function SWEP:ApplyForce()
 
 		if ForceMagnitude > 6000 * 1 then
 			ForceMagnitude = 6000
-
-			-- self:SetCarrying()
 
 			return
 		end
@@ -431,19 +421,6 @@ end
 function SWEP:GetCarrying()
 	return self.CarryEnt
 end
-
---[[
-hook.Add("ShouldCollide", "hjuyhhy", function(ent1, ent2)
-	if not ent1:IsPlayer() then return end
-	if not ent2:IsRagdoll() then return end
-
-	local wep = ent1:GetActiveWeapon()
-
-	if wep:GetClass() == "weapon_hands" then
-		print(wep.CarryEnt, ent2)
-		if wep.CarryEnt == ent2 then return false end
-	end
-end) --]]
 
 function SWEP:SetCarrying(ent, bone, pos, dist)
 	if IsValid(ent) then
@@ -564,7 +541,7 @@ function SWEP:AttackFront()
 
 	self:GetOwner():LagCompensation(true)
 
-	local Ent, HitPos = JMod.WhomILookinAt(self:GetOwner(), .3, 55)
+	local Ent, HitPos = whomILookinAt(self:GetOwner(), .3, 55)
 	local AimVec = self:GetOwner():GetAimVector()
 
 	if IsValid(Ent) or Ent and Ent.IsWorld and Ent:IsWorld() then
@@ -641,12 +618,9 @@ function SWEP:Reload()
 		end
 
 		if IsValid(ent) then
-			-- if heldents[ent:EntIndex()] then heldents[ent:EntIndex()] = nil end
 			heldents[ent:EntIndex()] = {self.CarryEnt, self:GetOwner(), self.CarryDist, target, self.CarryBone, self.CarryPos}
 		end
 	end
-
-	-- self:SetCarrying()
 end
 
 if SERVER then
@@ -695,8 +669,6 @@ end
 
 -- no, do nothing
 function SWEP:DoBFSAnimation(anim)
-	-- local vm = self:GetOwner():GetViewModel()
-	-- vm:SendViewModelMatchingSequence(vm:LookupSequence(anim))
 end
 
 function SWEP:UpdateNextIdle()

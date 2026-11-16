@@ -1,20 +1,18 @@
 -- Jackarunda 2021
 AddCSLuaFile()
-ENT.Base = "ent_jack_gmod_ezgrenade"
+ENT.Base = "ent_hg_grenade_base"
 ENT.Author = "Jackarunda, TheOnly8Z"
 ENT.PrintName = "EZHG HL2 Grenade"
-ENT.Category = "JModHomigrad"
+ENT.Category = "Homigrad"
 ENT.Spawnable = true
-ENT.JModPreferredCarryAngles = Angle(0, -140, 0)
 ENT.Model = "models/weapons/w_grenade.mdl"
 ENT.SpoonScale = 2
 
 if SERVER then
 	function ENT:Arm()
 		self:SetBodygroup(2, 1)
-		self:SetState(JMod.EZ_STATE_ARMED)
+		self:SetState(self.STATE_ARMED)
 		self:SpoonEffect()
-
 
 		local time = 3
 		timer.Simple(time - 1,function()
@@ -34,7 +32,7 @@ if SERVER then
 		if self.Exploded then return end
 		self.Exploded = true
 		local SelfPos = self:GetPos()
-		JMod.Sploom(self:GetOwner(), self:GetPos(), math.random(10, 20))
+		hg.Sploom(self:GetOwner(), self:GetPos(), math.random(10, 20))
 		self:EmitSound("explosions/doi_wp_03.wav", 551, 100)
 		local plooie = EffectData()
 		plooie:SetOrigin(SelfPos)
@@ -44,15 +42,10 @@ if SERVER then
 		ParticleEffect("pcf_jack_groundsplode_small",SelfPos,vector_up:Angle())
 		util.ScreenShake(SelfPos, 20, 20, 1, 1000)
 
-		local OnGround = util.QuickTrace(SelfPos + Vector(0, 0, 5), Vector(0, 0, -15), {self}).Hit
-
-		local Spred = Vector(0, 0, 0)
-		JMod.FragSplosion(self, SelfPos + Vector(0, 0, 20), 1200, 550, 3500, self:GetOwner() or game.GetWorld())
+		hg.FragSplosion(self, SelfPos + Vector(0, 0, 20), 1200, 550, 3500, self:GetOwner() or game.GetWorld())
 		self:Remove()
 	end
 elseif CLIENT then
-	local GlowSprite = Material("sprites/mat_jack_circle")
-
 	function ENT:Draw()
 		self:DrawModel()
 		-- sprites for calibrating the lethality/casualty radius
@@ -60,7 +53,7 @@ elseif CLIENT then
 
 	function ENT:Think()
 		local State = self:GetState()
-		if(State==JMod.EZ_STATE_ARMED)then
+		if(State==self.STATE_ARMED)then
 		self.nextpip = self.nextpip or CurTime() + 0.6
 		self.delay = self.delay or 0
 			if self.nextpip <= CurTime() then
@@ -70,6 +63,4 @@ elseif CLIENT then
 			end
 		end
 	end
-
-	--language.Add("ent_jack_gmod_ezfragnade", "EZ Frag Grenade")
 end

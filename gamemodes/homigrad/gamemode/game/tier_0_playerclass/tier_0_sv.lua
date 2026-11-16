@@ -36,7 +36,7 @@ function giveSubClassLoadout(ply, subclass, subclasslist)
             end
         elseif item.armor then
 			local armor_color = item.armor_color or armor_color or nil
-			local armor = JMod.EZ_Equip_Armor(ply,item.armor,armor_color)
+			local armor = hg.EquipArmor(ply,item.armor,armor_color)
 			if item.armor_color then
                 armor_color = item.armor_color
             end
@@ -108,6 +108,6 @@ hook.Add("PlayerCanPickupItem", "PlayerClass", function(ply, item)
 	return ply:PlayerClassEvent("ShouldUpItem", wep)
 end)
 
-hook.Add("Shuold JMod Armor Equip", "PlayerClass", function(ply)
-	return ply:PlayerClassEvent("JModArmorEquip")
+hook.Add("HG_ShouldEquipArmor", "PlayerClass", function(ply)
+	return ply:PlayerClassEvent("ShouldEquipArmor")
 end)

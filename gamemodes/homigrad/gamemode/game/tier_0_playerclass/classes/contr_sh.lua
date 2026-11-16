@@ -9,14 +9,6 @@ CLASS.color = Color(75, 75, 75)
 function CLASS:Off()
 	if CLIENT then return CLASS.CloseMenu() end
 
-	--[[
-	local guilt = self.contrGuilt or 0
-
-	if guilt >= 40 then
-		self.Guilt = self.Guilt + guilt
-		GuiltCheck(ply)
-	end --]]
-
 	self.isContr = nil
 end
 
@@ -54,11 +46,11 @@ function CLASS:On()
 	tdm.GiveSwep(self, CLASS.main_weapon)
 	tdm.GiveSwep(self, CLASS.secondary_weapon)
 
-	JMod.EZ_Equip_Armor(self, "Medium-Helmet", color)
-	JMod.EZ_Equip_Armor(self, "Medium-Vest", color)
-	JMod.EZ_Equip_Armor(self, "Light-Right-Shoulder", color)
-	JMod.EZ_Equip_Armor(self, "Light-Left-Shoulder", color)
-	JMod.EZ_Equip_Armor(self, "BallisticMask", color)
+	hg.EquipArmor(self, "Medium-Helmet", color)
+	hg.EquipArmor(self, "Medium-Vest", color)
+	hg.EquipArmor(self, "Light-Right-Shoulder", color)
+	hg.EquipArmor(self, "Light-Left-Shoulder", color)
+	hg.EquipArmor(self, "BallisticMask", color)
 
 	self.isContr = true
 
@@ -66,13 +58,6 @@ function CLASS:On()
 	if r == 1 then EmitSound(self, "radio/moveout.wav")
 	elseif r == 2 then EmitSound(self, "radio/com_go.wav")
 	elseif r == 3 then EmitSound(self, "radio/go.wav") end
-end
-
-function CLASS:EndRound(winner)
-	--[[
-	if roundActiveName == "homicide" and winner == 2 then
-		EmitSound(self,"radio/ctwin.wav")
-	end --]]
 end
 
 local function tracerSee(self, endpos, dis)
@@ -202,13 +187,6 @@ if SERVER then
 			EmitSound(ply, sound)
 		end
 	end)
-
-	--[[
-	for _, ply in pairs(getList(ply)) do
-		net.Start("homicide contr")
-			net.WriteString(sound)
-		net.Send()
-	end --]]
 
 	return
 end

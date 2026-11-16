@@ -1,7 +1,5 @@
 util.AddNetworkString("hgOverrideSpawn")
-util.AddNetworkString("send_deadbodies")
 util.AddNetworkString("Unload")
-util.AddNetworkString("nodraw_helmet")
 util.AddNetworkString("custom name")
 
 net.Receive("Unload", function(len, ply)
@@ -159,14 +157,14 @@ function Faking(ply, force)
 	else
 		local rag = ply:GetNWEntity("Ragdoll")
 
+		if IsValid(rag) and hook.Run("Fake Up", ply, rag) ~= nil then return end
+
 		DespawnWeapon(ply)
 
 		if IsValid(rag) then
 			if IsValid(rag.bull) then rag.bull:Remove() end
 
 			ply.GotUp = CurTime()
-
-			if hook.Run("Fake Up", ply, rag) ~= nil then return end
 
 			ply:SetNWBool("fake", IsValid(ply.FakeRagdoll))
 
@@ -182,9 +180,9 @@ function Faking(ply, force)
 			local eyepos = ply:EyeAngles()
 			local health = ply:Health()
 
-			JMod.hgFaking = true
+			hg.FakeRespawning = true
 			ply:Spawn()
-			JMod.hgFaking = nil
+			hg.FakeRespawning = nil
 
 			ply:DrawShadow(true)
 			ply:SetRenderMode(RENDERMODE_NORMAL)
@@ -208,7 +206,6 @@ function Faking(ply, force)
 
 			local tracea = util.TraceLine(trace)
 			if tracea.Hit then
-				-- ply:ChatPrint(tostring(tracea.Fraction) .. " 1")
 				pos:Add(Vector(0, 0, 64) * tracea.Fraction)
 			end
 
@@ -503,8 +500,8 @@ hook.Add("PreCleanupMap", "hgUnFakeEveryone", function()
 	BleedingEntities = {}
 end)
 
-local function CreateArmor(ragdoll, info)
-	local item = JMod.ArmorTable[info.name]
+local function CreateArmor(ragdoll, info, owner)
+	local item = hg.ArmorTable[info.name]
 	if not item then return end
 
 	local Index = ragdoll:LookupBone(item.bon)
@@ -532,6 +529,8 @@ local function CreateArmor(ragdoll, info)
 	Ang:RotateAroundAxis(Forward, item.ang.r)
 
 	ent.IsArmor = true
+	ent.ArmorDurability = info.dur
+	ent.ArmorColor = info.col
 
 	ent:SetPos(Pos)
 	ent:SetAngles(Ang)
@@ -543,15 +542,9 @@ local function CreateArmor(ragdoll, info)
 
 	if IsValid(ent:GetPhysicsObject()) then ent:GetPhysicsObject():SetMaterial("plastic") end
 
-	timer.Simple(0.1, function()
-		local ply = RagdollOwner(ragdoll)
-
-		if item.bon == "ValveBiped.Bip01_Head1" and ply and IsValid(ply) and ply:IsPlayer() then
-			net.Start("nodraw_helmet")
-				net.WriteEntity(ent)
-			net.Send(ply)
-		end
-	end)
+	ent.Owner = owner
+	ent:SetNWEntity("hgArmorOwner", owner)
+	ent:SetNWBool("hgHeadArmor", item.bon == "ValveBiped.Bip01_Head1")
 
 	ragdoll.constraints = ragdoll.constraints or {}
 	ragdoll.constraints[item.bon] = constraint.Weld(ent, ragdoll, 0, ragdoll:TranslateBoneToPhysBone(Index), 0, true, false)
@@ -566,7 +559,7 @@ local function Remove(self, ply)
 
 	self.ragdoll.armors[self.armorID] = nil
 
-	JMod.RemoveArmorByID(ply, self.armorID, true)
+	hg.RemoveArmor(ply, self.armorID, true)
 end
 
 local function RemoveRag(self)
@@ -667,6 +660,36 @@ IdealMassPlayer = {
 	["ValveBiped.Bip01_R_Finger42"] = 0.1
 }
 
+local selfCollisionPairs = {}
+
+do
+	for _, part in ipairs({"L_UpperArm", "L_Forearm", "L_Hand", "R_UpperArm", "R_Forearm", "R_Hand"}) do
+		table.insert(selfCollisionPairs, {part, "Head1"})
+	end
+
+	for _, part in ipairs({"L_Forearm", "L_Hand", "R_Forearm", "R_Hand"}) do
+		table.insert(selfCollisionPairs, {part, "Spine2"})
+	end
+
+	for _, left in ipairs({"L_Forearm", "L_Hand"}) do
+		for _, right in ipairs({"R_Forearm", "R_Hand"}) do
+			table.insert(selfCollisionPairs, {left, right})
+		end
+	end
+end
+
+-- Mega jank: models compiled without "collisionrules" in .phy will fly in fake, this disables the collision
+local function DisableArmSelfCollisions(rag)
+	for _, pair in ipairs(selfCollisionPairs) do
+		local bone1 = rag:LookupBone("ValveBiped.Bip01_" .. pair[1])
+		local bone2 = rag:LookupBone("ValveBiped.Bip01_" .. pair[2])
+		if not bone1 or not bone2 then continue end
+
+		local physBone1, physBone2 = rag:TranslateBoneToPhysBone(bone1), rag:TranslateBoneToPhysBone(bone2)
+		if physBone1 >= 0 and physBone2 >= 0 then constraint.NoCollide(rag, rag, physBone1, physBone2) end
+	end
+end
+
 function PlayerMeta:CreateRagdoll(attacker, dmginfo, force)
 	local rag = self:GetNWEntity("Ragdoll")
 	rag.ExplProof = true
@@ -719,10 +742,16 @@ function PlayerMeta:CreateRagdoll(attacker, dmginfo, force)
 
 	if dmginfo then phys_bone = GetPhysicsBoneDamageInfo(self, dmginfo) or 0 end
 
+	-- Same mass on every bone means the model was compiled without $mass, and such models also lack collision rules
+	local firstMass, uniformMass
+
 	for physNum = 0, rag:GetPhysicsObjectCount() - 1 do
 		local phys = rag:GetPhysicsObjectNum(physNum)
 		local bone = rag:TranslatePhysBoneToBone(physNum)
 		if bone < 0 then continue end
+
+		firstMass = firstMass or phys:GetMass()
+		uniformMass = (uniformMass ~= false) and math.abs(phys:GetMass() - firstMass) < 0.01
 
 		local matrix = self:GetBoneMatrix(bone)
 		local boneName = rag:GetBoneName(bone)
@@ -755,15 +784,18 @@ function PlayerMeta:CreateRagdoll(attacker, dmginfo, force)
 		phys:Wake()
 	end
 
+	if uniformMass then DisableArmSelfCollisions(rag) end
+
 	rag:SetNWString("Nickname", self:GetNWString("CustomName", false) or self:Name())
 
 	local armors = {}
 
-	for id, info in pairs(self.EZarmor.items) do
-		local ent = CreateArmor(rag, info)
+	for id, info in pairs(self.hgArmor and self.hgArmor.items or {}) do
+		local ent = CreateArmor(rag, info, self)
+		if not ent then continue end
+
 		ent.armorID = id
 		ent.ragdoll = rag
-		ent.Owner = self
 
 		armors[id] = ent
 
@@ -793,28 +825,30 @@ function PlayerMeta:CreateRagdoll(attacker, dmginfo, force)
 	return rag
 end
 
-hook.Add("JMod Armor Remove", "Fake", function(ply, slot, item, drop)
+hook.Add("HG_ArmorRemove", "Fake", function(ply, item)
 	local fake = ply:GetNWEntity("Ragdoll")
-	if not IsValid(fake) then return end
+	if not IsValid(fake) or not fake.armors then return end
 
-	local ent = fake.armors[slot.id]
+	local ent = fake.armors[item.id]
 	if not IsValid(ent) then return end
 
 	ent:Remove()
 end)
 
-hook.Add("JMod Armor Equip", "Fake", function(ply, slot, item, drop)
+hook.Add("HG_ArmorEquip", "Fake", function(ply, item)
 	local fake = ply:GetNWEntity("Ragdoll")
-	if not IsValid(fake) then return end
+	if not IsValid(fake) or not fake.armors then return end
 
-	local ent = CreateArmor(fake, item)
-	ent.armorID = slot.id
-	ent.Owner = ply
+	local ent = CreateArmor(fake, item, ply)
+	if not ent then return end
 
-	fake.armors[slot.id] = ent
+	ent.armorID = item.id
+	ent.ragdoll = fake
 
-	ent:CallOnRemove("Fake", Remove, ent, ply)
-end, 2)
+	fake.armors[item.id] = ent
+
+	ent:CallOnRemove("Fake", Remove, ply)
+end)
 
 hook.Add("Player Collide", "hgFaking", function(ply, hitEnt, data)
 	if not ply:HasGodMode() and data.Speed >= 250 / hitEnt:GetPhysicsObject():GetMass() * 20 and not IsValid(ply.FakeRagdoll) and not hitEnt:IsPlayerHolding() and hitEnt:GetVelocity():Length() > 150 then
@@ -843,8 +877,6 @@ hook.Add("OnPlayerHitGround", "hgFakeOnHitGround", function(ply, a, b, speed)
 	end
 end)
 
-deadBodies = deadBodies or {}
-
 hook.Add("Think", "hgVelocityFakeHitPlyCheck", function()
 	-- Speed check when faking (to knock over other players)
 	for _, rag in ipairs(ents.FindByClass("prop_ragdoll")) do
@@ -854,16 +886,6 @@ hook.Add("Think", "hgVelocityFakeHitPlyCheck", function()
 			else
 				rag:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 			end
-		end
-	end
-
-	for i = 1, #deadBodies do
-		local ent = deadBodies[i]
-
-		if not IsValid(ent) or not ent:IsPlayer() or not ent:IsRagdoll() then
-			deadBodies[i] = nil
-
-			continue
 		end
 	end
 end)
@@ -1430,9 +1452,9 @@ hook.Add("PlayerUse", "hgCanUseWhileFaking", function(ply, ent)
 
 		if PhysObj and PhysObj.GetMass and PhysObj:GetMass() > 14 then return false end
 	end
+
 	if not GetConVar("hg_usewhilefaking"):GetBool() then
 		if IsValid(ply.FakeRagdoll) then return false end
-		-- if ent.IsJModArmor then return false end
 	end
 end)
 
@@ -1449,4 +1471,3 @@ hook.Add("PlayerSay", "hgDropWeaponsCommand", function(ply, text)
 end)
 
 hook.Add("UpdateAnimation", "hgUpdateAnims", function(ply, event, data) ply:RemoveGesture(ACT_GMOD_NOCLIP_LAYER) end)
--- hook.Add("Player Think", "hgHoldEntity", function(ply, time) if IsValid(ply.holdEntity) then end end)
